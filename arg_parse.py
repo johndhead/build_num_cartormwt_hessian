@@ -37,6 +37,8 @@ if __name__ == "__main__":
                         help='coords units - options "bohr" or "angstrom"')
     args = parser.parse_args()
 
+    print("type for args: ",type(args))
+
     print("args",args)
 
     # get working directory and look for files with mol_name
@@ -157,19 +159,21 @@ if __name__ == "__main__":
 
             jopts = {'basis': basis,
                      'maxiter': 100,
-                     'reference':"rhf",
-                     'scf_type':"direct",
+                     'reference': "rhf",
+                     'scf_type': "direct",
                      'd_convergence': 10,
                      'e_convergence': 10,
                      'ints_tolerance': 10,
                      'print_mos': False,
                      'geom_maxiter': 50
                      }
-            print("\n### start of set options block",file=f_init_geom)
-            print("set {",file=f_init_geom)
+            print("\n### start of set options block", file=f_init_geom)
+            print("set {", file=f_init_geom)
             for key in jopts.keys():
-                print(f"  {key} {jopts[key]}",file=f_init_geom)
-            print("  }\n",file=f_init_geom)
+                print(f"  {key} {jopts[key]}", file=f_init_geom)
+                # glob_op = core.get_global_option(key)
+                print(f"# key: {key}  from global_opt {psi4.core.get_global_option(key)} reset to {jopts[key]}", file=f_init_geom)
+            print("  }\n", file=f_init_geom)
 
             if mol_geom == "init_pt":
                 #  get MOLNAME wfn at initial geom
