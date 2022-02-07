@@ -7,6 +7,36 @@ import psi4
 import numpy as np
 import sys
 
+
+def build_num_hess(hess_type_param,jopts=None):
+    """  build_num_hess routine to
+
+    parameters
+    ==========
+    hess_type_param - parameters to define type of hessian being calculated from "npy_file"
+    jopts:  parameters for performing energy calculations
+
+    # TODO: fix jopts
+    # if jopts == None - read in XXXXXX.jopts where XXXXXX is the same as for the npy file
+
+    return:
+    =======
+    zero if calculation complete
+
+    """
+
+    print("==============================================================================")
+    print("==================== Welcome to BUILD_NUM_HESS routine =======================")
+    print("==============================================================================")
+
+    print("\n +++ hess_type_param -->\n",hess_type_param)
+
+    print("jopts = ",jopts)
+
+    print("++++++++ EXITING BUILD_NUM_HESS ++++++++++\n")
+
+    return 0
+
 if __name__ == "__main__":
     print("===============================================================")
     print("====== Start of find tree of folders_files_names program ======")
@@ -43,6 +73,9 @@ if __name__ == "__main__":
 
     # get working directory and look for files with mol_name
     work_dir = os.getcwd()
+
+    # gather argparse options for type of hessian build - save options in run_type_op
+    run_type_op ={}
     mol_nm = args.mol_name
     print("molecule name = %s" % mol_nm)
     # print out other parameters
@@ -52,6 +85,10 @@ if __name__ == "__main__":
     coord_type = args.coord
     coord_unit = args.coord_unit
     print('build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
+
+    run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp, 'coord_type': coord_type, 'coord_unit': coord_unit}
+
+    print('arg_parse parameters converted to a dictionary \n',run_type_op)
 
     mol_files = []
     for tfile in os.listdir():
@@ -215,8 +252,17 @@ if __name__ == "__main__":
             print(f"****At end of arg_parse pgm - hessian {build_hess}.npy does not exist****")
             print("NEED TO FIX PROBLEM")
             ready_to_build_hess = False
+            sys.exit()
 
-        if ready_to_build_hess:
-            print(f"++++ ready to run build_hess pgm using {build_hess}.npy file")
+
+    if ready_to_build_hess:
+        print(f"++++ ready to run build_hess pgm using {build_hess}.npy file")
+        # call build_num_hess routine
+        # hess_done = build_num_hess(run_type_op,jopts)
+        run_type_op['npy_file'] = build_hess + ".npy"
+        hess_done = build_num_hess(run_type_op)
+
+        print("Num hess calc all pau")
 
     print("ALL PAU")
+
