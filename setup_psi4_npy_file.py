@@ -10,37 +10,46 @@ to facilitate running different num_hess calculations
 import psi4
 import numpy as np
 import sys
+import wrt_rd_dict_to_json as sav_psi4opt
+import build_num_hess_main as jdh_bh
 
+# to save psi4 opts use: sav_psi4opt.wrt_rd_dict_to_json(wrd,job_name,json_file,optdict=None)
 
-def build_num_hess(hess_type_param,jopts=None):
-    """  build_num_hess routine to
+# The following block could be included if the "__name__ == '__main__' is moved to end of code
+# def build_num_hess(hess_type_param,jopts=None):
+#     """  build_num_hess routine to
+#
+#     parameters
+#     ==========
+#     hess_type_param - parameters to define type of hessian being calculated from "npy_file"
+#     jopts:  parameters for performing energy calculations
+#
+#     # TODO: fix jopts
+#     # if jopts == None - read in XXXXXX.jopts where XXXXXX is the same as for the npy file
+#
+#     return:
+#     =======
+#     zero if calculation complete
+#
+#     """
+#
+#     print("==============================================================================")
+#     print("==================== Welcome to BUILD_NUM_HESS routine =======================")
+#     print("==============================================================================")
+#
+#     print("\n +++ hess_type_param -->\n",hess_type_param)
+#
+#     print("jopts = ",jopts)
+#
+#     print("++++++++ EXITING BUILD_NUM_HESS ++++++++++\n")
+#
+#     return 0
 
-    parameters
-    ==========
-    hess_type_param - parameters to define type of hessian being calculated from "npy_file"
-    jopts:  parameters for performing energy calculations
-
-    # TODO: fix jopts
-    # if jopts == None - read in XXXXXX.jopts where XXXXXX is the same as for the npy file
-
-    return:
-    =======
-    zero if calculation complete
-
-    """
-
-    print("==============================================================================")
-    print("==================== Welcome to BUILD_NUM_HESS routine =======================")
-    print("==============================================================================")
-
-    print("\n +++ hess_type_param -->\n",hess_type_param)
-
-    print("jopts = ",jopts)
-
-    print("++++++++ EXITING BUILD_NUM_HESS ++++++++++\n")
-
-    return 0
-
+######################################################################################################
+#
+# Possible modification - move this initial "__name__ == '__main'" block to end of file
+#
+#######################################################################################################
 if __name__ == "__main__":
     print("===============================================================")
     print("====== Start of find tree of folders_files_names program ======")
@@ -93,6 +102,18 @@ if __name__ == "__main__":
     run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp, 'coord_type': coord_type, 'coord_unit': coord_unit}
 
     print('arg_parse parameters converted to a dictionary \n',run_type_op)
+    ######################################################################################################
+    #
+    # Possible modification - move the above initial block to end of file
+    #
+    #  declare various parameters by using parameters in run_type_op dictionary:
+    #    mol_geom = run_type_op["mol_geom], disp = run_type_op["disp"], coord_type =..., coord_unit...
+    #
+    #######################################################################################################
+
+    #######################################################################################################
+    #  start setup of the psi4 wfn calculation at 'equil' or 'init_pt' geometry
+    ###############################################################################
 
     mol_files = []
     for tfile in os.listdir():
@@ -136,7 +157,7 @@ if __name__ == "__main__":
             sys.exit()
 
         elif mol_files.count(mol_nm+".xyz") == 1:
-        # else mol_files.count(mol_nm + ".xyz") == 1:
+            #
             # make build_hess+'.dat' file
             # form hessian at initial geom
             # get xyz_coords from .xyz file
@@ -146,6 +167,7 @@ if __name__ == "__main__":
                 xyz_lines = [line.rstrip() for line in fxyz]
             print("number of lines in %s.xyz = %d" %(mol_nm,len(xyz_lines)))
 
+            # TODO: the following can probably be deleted
             # set up beginning of dat file
             #  get MOLNAME wfn at above geom
             # E_int,h2co_init_geom_wfn = energy('scf',return_wfn=True)
@@ -162,15 +184,16 @@ if __name__ == "__main__":
             #
             # print(MOLNAME_hess_wfn.frequencies().get(0,0))
             # hess_wfn.hessian().print_out()
+            # end of TODO: block probably for deletion
 
             # set up "init_pt" or "equili" geom dat file
             f_init_geom = open(build_hess + '.dat','wt')
 
             if mol_geom == "init_pt":
-                print(f"# psi4 cal hessian file for {mol_nm} at init geom",file=f_init_geom)
+                print(f"# psi4 calc hessian file for {mol_nm} at init geom",file=f_init_geom)
 
             elif mol_geom == "equil":
-                print(f"# psi4 cal hessian file for {mol_nm} at optimized geom",file=f_init_geom)
+                print(f"# psi4 calc hessian file for {mol_nm} at optimized geom",file=f_init_geom)
 
             print("\nmemory 500 mb",file=f_init_geom)
 
@@ -197,6 +220,7 @@ if __name__ == "__main__":
             # basis aug-cc-pvdz or 6-31g**
             basis = "6-31g**"
             # set up dictionary jopts with energy calc options
+            # modify jopts to run different types of energy calcs
 
             jopts = {'basis': basis,
                      'maxiter': 100,
@@ -209,6 +233,8 @@ if __name__ == "__main__":
                      'geom_maxiter': 50
                      }
             print("\n### start of set options block", file=f_init_geom)
+            # compare local options in jopts with psi4 global options
+            # goal of jopts dictionary is to same psi4 options when building john's num hessian
             print("set {", file=f_init_geom)
             for key in jopts.keys():
                 print(f"  {key} {jopts[key]}", file=f_init_geom)
@@ -252,6 +278,13 @@ if __name__ == "__main__":
         print(f"finished running: psi4 -i {build_hess}.dat ------")
         if os.path.isfile(f"{build_hess}.npy"):
             ready_to_build_hess = True
+            # save the jopts dictionary to a json file
+
+            # sav_psi4opt.json_wrt_rd_dict(wrd, job_name, json_file, optdict=None)
+            # TODO: add total energy and max force of current geometry to jopts
+            #jj
+            sav_psi4opt.json_wrt_rd_dict("write", build_hess, build_hess, optdict=jopts)
+
         else:
             print(f"****At end of arg_parse pgm - hessian {build_hess}.npy does not exist****")
             print("NEED TO FIX PROBLEM")
@@ -261,12 +294,27 @@ if __name__ == "__main__":
 
     if ready_to_build_hess:
         print(f"++++ ready to run build_hess pgm using {build_hess}.npy file")
-        # call build_num_hess routine
+        # call jdh_build_num_hess routine
         # hess_done = build_num_hess(run_type_op,jopts)
         run_type_op['npy_file'] = build_hess + ".npy"
-        hess_done = build_num_hess(run_type_op)
 
-        print("Num hess calc all pau")
+        # TODO: decide whether to jdh_build_hess as a psi4 job
+        # OR: make jdh_build_hess a callable fn
+        
+        # HERE IS A CALLABLE jdhd_build_num_hess function
+        # import build_num_hess_main as jdh_bh
+        # run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp,
+        # 'coord_type': coord_type, 'coord_unit': coord_unit}
+
+        # hess_done = jdh_bh.jdh_build_num_hess(mol_nm, run_type_op)
+
+        print("JDH Num hess calc all pau - hess_done should be zero = %d" % hess_done)
 
     print("ALL PAU")
+
+    ################################################################################
+    #
+    #    could add the "__name__ == '__main__'" block here
+    #
+    #################################################################################
 
