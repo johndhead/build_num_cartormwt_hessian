@@ -1,0 +1,1 @@
+{"basis": "6-31g**", "maxiter": 100, "reference": "rhf", "scf_type": "direct", "d_convergence": 10, "e_convergence": 10, "ints_tolerance": 10, "print_mos": false, "geom_maxiter": 50, "formed_by_job": "CH3NH2_opt_wfn.dat", "npy_file": "CH3NH2_opt_wfn.npy"}

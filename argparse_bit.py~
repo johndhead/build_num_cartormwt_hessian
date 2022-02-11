@@ -1,0 +1,47 @@
+    
+    import argparse
+    import os
+    parser = argparse.ArgumentParser(
+            description="""
+                        Program to build hessian matrices using either cart or mwt coordinates
+                        1) Pick a molecule and check for a data file 'molecule.dat'
+                        2) Generate a psi4 wavefn file at starting or optimized equil geometry
+                        3) Set up size of displacement (-d disp) for numerical hessian calc
+                        4) Decide to use cart (-g cart) or mwt (-g mwt) coordinates
+                        5) Choose between Bohr or Angstrom for coord units in xyz file
+                        6) If wavefn file already exists start building hessian matrix
+                        """)
+    parser.add_argument('-m','--mol_name', default = None,
+                        help = 'file with molecule name - default None')
+    parser.add_argument('-g','--geom',default='equil',
+                        help = 'geom used to build hessian - options "equil" or "init_pt"')
+    parser.add_argument('-d','--disp',default= 0.01,
+                            help = 'numerical displace for finite differentiation')
+    parser.add_argument('-c','--coord',default='cart',
+                        help='coordinate type used to form hessian - options "cart" or "mwt"')
+    parser.add_argument('-u','--coord_unit',default='bohr',
+                        help='coords units - options "bohr" or "angstrom"')
+    args = parser.parse_args()
+
+    print("type for args: ",type(args))
+
+    print("args",args)
+
+    # get working directory and look for files with mol_name
+    work_dir = os.getcwd()
+
+    # gather argparse options for type of hessian build - save options in run_type_op
+    run_type_op ={}
+    mol_nm = args.mol_name
+    print("molecule name = %s" % mol_nm)
+    # print out other parameters
+    mol_geom = args.geom
+    print("working with %s %s geometry" % (mol_geom,mol_nm))
+    disp = args.disp
+    coord_type = args.coord
+    coord_unit = args.coord_unit
+    print('build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
+
+    run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp, 'coord_type': coord_type, 'coord_unit': coord_unit}
+
+    print('arg_parse parameters converted to a dictionary \n',run_type_op)

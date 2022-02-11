@@ -1,0 +1,23 @@
+            # set up dictionary jopts with energy calc options
+            # modify jopts to run different types of energy calcs
+
+            jopts = {'basis': basis,
+                     'maxiter': 100,
+                     'reference': "rhf",
+                     'scf_type': "direct",
+                     'd_convergence': 10,
+                     'e_convergence': 10,
+                     'ints_tolerance': 10,
+                     'print_mos': False,
+                     'geom_maxiter': 50
+                     }
+            print("\n### start of set options block", file=f_init_geom)
+            # compare local options in jopts with psi4 global options
+            # goal of jopts dictionary is to same psi4 options when building john's num hessian
+            print("set {", file=f_init_geom)
+            for key in jopts.keys():
+                print(f"  {key} {jopts[key]}", file=f_init_geom)
+                # glob_op = core.get_global_option(key)
+                print(f"# key: {key}  from global_opt {psi4.core.get_global_option(key)} reset to {jopts[key]}", file=f_init_geom)
+            print("  }\n", file=f_init_geom)
+

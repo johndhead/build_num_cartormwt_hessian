@@ -27,7 +27,7 @@ def json_wrt_rd_dict(wrd,job_name,json_file,optdict=None):
             optdict["npy_file"] = npy_file
             with open(f"{json_file}.json","w") as jsf:
                 json.dump(optdict,jsf)
-            jsf.close()
+            #    jsf.close()
             print("optdict: ",optdict)
             print("json_dumped to: ",json_file)
         else:
@@ -41,9 +41,12 @@ def json_wrt_rd_dict(wrd,job_name,json_file,optdict=None):
         jsonf_w_dict = f"{json_file}.json"
         print("READING npy calc opt dictionary from %s" % jsonf_w_dict)
         with open(f"{json_file}.json","r") as jsf:
-            opt_dict = jsf.read()
-            jsf.close()
-        print("opt_dict: ",opt_dict)
+            opt_dict = json.loads(jsf.read())
+            # opt_dict = json.loads(jsf)
+        #    jsf.close()
+        print("type(opt_dict): ",type(opt_dict), "    opt_dict: ",opt_dict)
+        #opt_dict = json.loads(opt_dict)
+        #print("new type(opt_dict): ",type(opt_dict), "    opt_dict: ",opt_dict)
         print("successfully read from: ",jsonf_w_dict)
         return opt_dict
 
@@ -74,6 +77,11 @@ if __name__ == "__main__":
     new_dict = json_wrt_rd_dict("read",job_name,json_file)
 
     print("Finished reading new_dict from json_file: ",json_file,"\n")
+    print("Check type of new_dict is dict")
+    if type(new_dict) == 'dict':
+        print('new_dict type is "dict"',type(new_dict))
+    else:
+        print("we have a problem - new_dict type is not dict but = ",type(new_dict))
     print("new dict: ",new_dict)
 
 

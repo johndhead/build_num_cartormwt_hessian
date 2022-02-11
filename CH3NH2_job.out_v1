@@ -1,0 +1,21 @@
+Optimizer: Optimization complete!
+Warning: used thermodynamics relations inappropriate for low-frequency modes: ['334.8270']
+===============================================================
+====== Start of find tree of folders_files_names program ======
+=========== Setting up input for build_hess program ===========
+===============================================================
+args Namespace(coord='cart', coord_unit='angstrom', disp=0.01, geom='equil', mol_name='CH3NH2')
+molecule name = CH3NH2
+working with equil CH3NH2 geometry
+build hessian will displace atoms by 0.010000 bohr using coord_type = cart
+2 molecule files found  -->
+ ['CH3NH2.xyz', 'CH3NH2_job.out']
+++++ hessian/wfn file CH3NH2_opt_wfn.npy does not exist
+need to run: 'psi4 -i CH3NH2_opt_wfn.dat' first to form CH3NH2_opt_wfn.npy file
+number of lines in CH3NH2.xyz = 9
+no atoms in  CH3NH2 = 7
+finished forming CH3NH2_opt_wfn.dat
+++++ start running: psi4 -i CH3NH2_opt_wfn.dat to form npy file
+finished running: psi4 -i CH3NH2_opt_wfn.dat ------
+++++ ready to run build_hess pgm using CH3NH2_opt_wfn.npy file
+ALL PAU

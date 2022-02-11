@@ -1,0 +1,9 @@
+
+  Memory set to 476.837 MiB by Python driver.
+  Threads set to 4 by Python driver.
++-----------------------------------------------------------+
+|     Start of main pgm to test build_num_hess_main.py      |
++-----------------------------------------------------------+
+check __file__  build_num_hess_main.py
+get __file__ abspath:  C:\Users\johnh\PythonProjects\python_proj_2022\build_masswt_hess_2022\build_num_hess_main.py
+get_print_options:  {'edgeitems': 3, 'threshold': 1000, 'floatmode': 'maxprec', 'precision': 8, 'suppress': False, 'linewidth': 75, 'nanstr': 'nan', 'infstr': 'inf', 'sign': '-', 'formatter': None, 'legacy': False}

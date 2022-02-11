@@ -1,0 +1,49 @@
+# psi4 calc hessian file for CH3NH2 at optimized geom
+
+memory 500 mb
+molecule CH3NH2 {
+  0  1
+# add in xyz coords here
+C     0.    0.    0.
+H     0.9   0.   -0.7
+H    -0.4   0.8  -0.7
+H    -0.4  -0.8  -0.7
+N     0.    0.    1.3
+H     0.05    0.9   2.0
+H     0.05   -0.9   2.0
+symmetry c1
+no_reorient
+no_com
+units angstrom
+  }
+
+set_num_threads(6)
+
+
+### start of set options block
+set {
+  basis 6-31g**
+# key: basis  from global_opt  reset to 6-31g**
+  maxiter 100
+# key: maxiter  from global_opt 50 reset to 100
+  reference rhf
+# key: reference  from global_opt RHF reset to rhf
+  scf_type direct
+# key: scf_type  from global_opt PK reset to direct
+  d_convergence 10
+# key: d_convergence  from global_opt 1e-08 reset to 10
+  e_convergence 10
+# key: e_convergence  from global_opt 1e-06 reset to 10
+  ints_tolerance 10
+# key: ints_tolerance  from global_opt 1e-12 reset to 10
+  print_mos False
+# key: print_mos  from global_opt 0 reset to False
+  geom_maxiter 50
+# key: geom_maxiter  from global_opt 50 reset to 50
+  }
+
+# calc CH3NH2 opt_wfn at equil_geom
+E_opt,CH3NH2_opt_wfn = optimize('scf',return_wfn=True)
+CH3NH2_opt_wfn.to_file('CH3NH2_opt_wfn.npy')
+# calc CH3NH2 frequencies at optimized geom for comparision with buildhess freq
+E, CH3NH2_hess_wfn = frequency('scf',return_wfn=True)

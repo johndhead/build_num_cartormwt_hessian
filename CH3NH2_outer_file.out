@@ -1,0 +1,1420 @@
+
+  Memory set to 476.837 MiB by Python driver.
+  Threads set to 4 by Python driver.
+   => Loading Basis Set <=
+
+    Name: 6-31G**
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1        entry C          line   115 file C:\Users\johnh\anaconda3\envs\psi4v14\lib\share\psi4\basis\6-31gss.gbs 
+    atoms 2-4, 6-7 entry H          line    44 file C:\Users\johnh\anaconda3\envs\psi4v14\lib\share\psi4\basis\6-31gss.gbs 
+    atoms 5        entry N          line   132 file C:\Users\johnh\anaconda3\envs\psi4v14\lib\share\psi4\basis\6-31gss.gbs 
+
++-----------------------------------------------------------+
+|     Start of main pgm to test build_num_hess_main.py      |
++-----------------------------------------------------------+
+type for args:  <class 'argparse.Namespace'>
+args Namespace(coord='cart', coord_unit='bohr', disp=0.01, geom='equil', npy_file='CH3NH2_opt_wfn')
+debug build_hess = CH3NH2_opt_wfn fnpy = CH3NH2_opt_wfn.npy and fjson = CH3NH2_opt_wfn.json
+READING npy calc opt dictionary from CH3NH2_opt_wfn.json
+type(opt_dict):  <class 'dict'>     opt_dict:  {'basis': '6-31g**', 'maxiter': 100, 'reference': 'rhf', 'scf_type': 'direct', 'd_convergence': 10, 'e_convergence': 10, 'ints_tolerance': 10, 'print_mos': False, 'geom_maxiter': 50, 'formed_by_job': 'CH3NH2_opt_wfn.dat', 'npy_file': 'CH3NH2_opt_wfn.npy'}
+successfully read from:  CH3NH2_opt_wfn.json
+jopts dictionary - type =  <class 'dict'>  -->: 
+ {'basis': '6-31g**', 'maxiter': 100, 'reference': 'rhf', 'scf_type': 'direct', 'd_convergence': 10, 'e_convergence': 10, 'ints_tolerance': 10, 'print_mos': False, 'geom_maxiter': 50, 'formed_by_job': 'CH3NH2_opt_wfn.dat', 'npy_file': 'CH3NH2_opt_wfn.npy'}
+molecule name = CH3NH2
+working with equil CH3NH2 geometry
+build hessian will displace atoms by 0.010000 bohr using coord_type = cart
+arg_parse parameters converted to the run_type_op dictionary 
+ {'mol_nm': 'CH3NH2', 'mol_geom': 'equil', 'disp': 0.01, 'coord_type': 'cart', 'coord_unit': 'bohr', 'npy_file': 'CH3NH2_opt_wfn'}
+check __file__  build_num_hess_main.py
+get __file__ abspath:  C:\Users\johnh\PythonProjects\python_proj_2022\build_num_cartormwt_hessian\build_num_hess_main.py
+=========== Parameters used in the jdh_build_num_hess pgm =============
+run_type_op =  {'mol_nm': 'CH3NH2', 'mol_geom': 'equil', 'disp': 0.01, 'coord_type': 'cart', 'coord_unit': 'bohr', 'npy_file': 'CH3NH2_opt_wfn'}
+get_print_options:  {'edgeitems': 3, 'threshold': 1000, 'floatmode': 'maxprec', 'precision': 8, 'suppress': False, 'linewidth': 75, 'nanstr': 'nan', 'infstr': 'inf', 'sign': '-', 'formatter': None, 'legacy': False}
+dir(psi4.core.Options) -->
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'add_array', 'add_bool', 'add_int', 'add_str', 'add_str_i', 'get_bool', 'get_current_module', 'get_double', 'get_int', 'get_int_vector', 'get_str', 'print_global_options', 'print_module_options', 'read_globals', 'set_array', 'set_bool', 'set_current_module', 'set_double', 'set_int', 'set_read_globals', 'set_str', 'set_str_i', 'validate_options']
+dir(psi4.core.Wavefunction) -->
+['Ca', 'Ca_subset', 'Cb', 'Cb_subset', 'Da', 'Da_subset', 'Db', 'Db_subset', 'Fa', 'Fa_subset', 'Fb', 'Fb_subset', 'H', 'PCM_enabled', 'S', 'X', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'alpha_orbital_space', 'aotoso', 'array_variable', 'array_variables', 'arrays', 'atomic_point_charges', 'basis_projection', 'basisset', 'beta_orbital_space', 'build', 'c1_deep_copy', 'compute_energy', 'compute_gradient', 'compute_hessian', 'deep_copy', 'del_array_variable', 'del_potential_variable', 'del_scalar_variable', 'del_variable', 'density_fitted', 'doccpi', 'efzc', 'energy', 'epsilon_a', 'epsilon_a_subset', 'epsilon_b', 'epsilon_b_subset', 'esp_at_nuclei', 'external_pot', 'force_doccpi', 'force_soccpi', 'frequencies', 'from_file', 'frzcpi', 'frzvpi', 'get_array', 'get_basisset', 'get_dipole_field_strength', 'get_print', 'get_scratch_filename', 'get_variable', 'gradient', 'has_array_variable', 'has_potential_variable', 'has_scalar_variable', 'has_variable', 'hessian', 'lagrangian', 'legacy_frequencies', 'mintshelper', 'mo_extents', 'module', 'molecule', 'nalpha', 'nalphapi', 'name', 'nbeta', 'nbetapi', 'nfrzc', 'nirrep', 'nmo', 'nmopi', 'no_occupations', 'nso', 'nsopi', 'potential_variable', 'potential_variables', 'reference_wavefunction', 'same_a_b_dens', 'same_a_b_orbs', 'scalar_variable', 'scalar_variables', 'set_array', 'set_array_variable', 'set_basisset', 'set_energy', 'set_external_potential', 'set_frequencies', 'set_gradient', 'set_hessian', 'set_lagrangian', 'set_legacy_frequencies', 'set_module', 'set_name', 'set_potential_variable', 'set_print', 'set_reference_wavefunction', 'set_scalar_variable', 'set_variable', 'shallow_copy', 'sobasisset', 'soccpi', 'to_file', 'variable', 'variables', 'write_molden', 'write_nbo']
+List of options -->
+ <psi4.core.Options object at 0x000002DCC18C4EF0>
+
+======== type(file_wfn) -->  <class 'psi4.core.Wavefunction'>
+dir(file_wfn) -->
+ ['Ca', 'Ca_subset', 'Cb', 'Cb_subset', 'Da', 'Da_subset', 'Db', 'Db_subset', 'Fa', 'Fa_subset', 'Fb', 'Fb_subset', 'H', 'PCM_enabled', 'S', 'X', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'alpha_orbital_space', 'aotoso', 'array_variable', 'array_variables', 'arrays', 'atomic_point_charges', 'basis_projection', 'basisset', 'beta_orbital_space', 'build', 'c1_deep_copy', 'compute_energy', 'compute_gradient', 'compute_hessian', 'deep_copy', 'del_array_variable', 'del_potential_variable', 'del_scalar_variable', 'del_variable', 'density_fitted', 'doccpi', 'efzc', 'energy', 'epsilon_a', 'epsilon_a_subset', 'epsilon_b', 'epsilon_b_subset', 'esp_at_nuclei', 'external_pot', 'force_doccpi', 'force_soccpi', 'frequencies', 'from_file', 'frzcpi', 'frzvpi', 'get_array', 'get_basisset', 'get_dipole_field_strength', 'get_print', 'get_scratch_filename', 'get_variable', 'gradient', 'has_array_variable', 'has_potential_variable', 'has_scalar_variable', 'has_variable', 'hessian', 'lagrangian', 'legacy_frequencies', 'mintshelper', 'mo_extents', 'module', 'molecule', 'nalpha', 'nalphapi', 'name', 'nbeta', 'nbetapi', 'nfrzc', 'nirrep', 'nmo', 'nmopi', 'no_occupations', 'nso', 'nsopi', 'potential_variable', 'potential_variables', 'reference_wavefunction', 'same_a_b_dens', 'same_a_b_orbs', 'scalar_variable', 'scalar_variables', 'set_array', 'set_array_variable', 'set_basisset', 'set_energy', 'set_external_potential', 'set_frequencies', 'set_gradient', 'set_hessian', 'set_lagrangian', 'set_legacy_frequencies', 'set_module', 'set_name', 'set_potential_variable', 'set_print', 'set_reference_wavefunction', 'set_scalar_variable', 'set_variable', 'shallow_copy', 'sobasisset', 'soccpi', 'to_file', 'variable', 'variables', 'write_molden', 'write_nbo']
+
+======== type(file_mol) ->  <class 'psi4.core.Molecule'>
+
+======== dir(file_mol) -->  ['B787', 'BFS', 'Z', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattr__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'activate_all_fragments', 'add_atom', 'atom_at_position', 'basis_on_atom', 'center_of_mass', 'charge', 'clone', 'com_fixed', 'comment', 'connectivity', 'create_psi4_string_from_molecule', 'deactivate_all_fragments', 'distance_matrix', 'extract_subsets', 'fZ', 'fcharge', 'find_highest_point_group', 'find_point_group', 'fix_com', 'fix_orientation', 'flabel', 'fmass', 'form_symmetry_information', 'format_molecule_for_mol', 'from_arrays', 'from_dict', 'from_schema', 'from_string', 'fsymbol', 'ftrue_atomic_number', 'full_geometry', 'full_pg_n', 'fx', 'fy', 'fz', 'geometry', 'get_fragment_charges', 'get_fragment_multiplicities', 'get_fragment_types', 'get_fragments', 'get_full_point_group', 'get_full_point_group_with_n', 'get_variable', 'inertia_tensor', 'input_units_to_au', 'irrep_labels', 'is_variable', 'label', 'mass', 'mass_number', 'molecular_charge', 'move_to_com', 'multiplicity', 'nallatom', 'name', 'natom', 'nfragments', 'nuclear_dipole', 'nuclear_repulsion_energy', 'nuclear_repulsion_energy_deriv1', 'nuclear_repulsion_energy_deriv2', 'orientation_fixed', 'point_group', 'print_bond_angles', 'print_cluster', 'print_distances', 'print_in_input_format', 'print_out', 'print_out_in_angstrom', 'print_out_in_bohr', 'print_out_of_planes', 'print_rotational_constants', 'provenance', 'reinterpret_coordentry', 'reset_point_group', 'rotational_constants', 'rotational_symmetry_number', 'rotor_type', 'run_dftd3', 'run_gcp', 'save_string_xyz', 'save_string_xyz_file', 'save_xyz_file', 'schoenflies_symbol', 'scramble', 'set_active_fragment', 'set_active_fragments', 'set_basis_all_atoms', 'set_basis_by_label', 'set_basis_by_number', 'set_basis_by_symbol', 'set_comment', 'set_connectivity', 'set_full_geometry', 'set_geometry', 'set_ghost_fragment', 'set_ghost_fragments', 'set_input_units_to_au', 'set_mass', 'set_molecular_charge', 'set_multiplicity', 'set_name', 'set_nuclear_charge', 'set_point_group', 'set_provenance', 'set_units', 'set_variable', 'symbol', 'symmetrize', 'symmetry_from_input', 'to_arrays', 'to_dict', 'to_schema', 'to_string', 'translate', 'true_atomic_number', 'units', 'update_geometry', 'x', 'xyz', 'y', 'z']
+
+
+=============================================================
+
+======== type(file_wfn.molecule()) ->  <class 'method'>
+
+======== dir(file_wfn.molecule()) -->  ['B787', 'BFS', 'Z', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattr__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'activate_all_fragments', 'add_atom', 'atom_at_position', 'basis_on_atom', 'center_of_mass', 'charge', 'clone', 'com_fixed', 'comment', 'connectivity', 'create_psi4_string_from_molecule', 'deactivate_all_fragments', 'distance_matrix', 'extract_subsets', 'fZ', 'fcharge', 'find_highest_point_group', 'find_point_group', 'fix_com', 'fix_orientation', 'flabel', 'fmass', 'form_symmetry_information', 'format_molecule_for_mol', 'from_arrays', 'from_dict', 'from_schema', 'from_string', 'fsymbol', 'ftrue_atomic_number', 'full_geometry', 'full_pg_n', 'fx', 'fy', 'fz', 'geometry', 'get_fragment_charges', 'get_fragment_multiplicities', 'get_fragment_types', 'get_fragments', 'get_full_point_group', 'get_full_point_group_with_n', 'get_variable', 'inertia_tensor', 'input_units_to_au', 'irrep_labels', 'is_variable', 'label', 'mass', 'mass_number', 'molecular_charge', 'move_to_com', 'multiplicity', 'nallatom', 'name', 'natom', 'nfragments', 'nuclear_dipole', 'nuclear_repulsion_energy', 'nuclear_repulsion_energy_deriv1', 'nuclear_repulsion_energy_deriv2', 'orientation_fixed', 'point_group', 'print_bond_angles', 'print_cluster', 'print_distances', 'print_in_input_format', 'print_out', 'print_out_in_angstrom', 'print_out_in_bohr', 'print_out_of_planes', 'print_rotational_constants', 'provenance', 'reinterpret_coordentry', 'reset_point_group', 'rotational_constants', 'rotational_symmetry_number', 'rotor_type', 'run_dftd3', 'run_gcp', 'save_string_xyz', 'save_string_xyz_file', 'save_xyz_file', 'schoenflies_symbol', 'scramble', 'set_active_fragment', 'set_active_fragments', 'set_basis_all_atoms', 'set_basis_by_label', 'set_basis_by_number', 'set_basis_by_symbol', 'set_comment', 'set_connectivity', 'set_full_geometry', 'set_geometry', 'set_ghost_fragment', 'set_ghost_fragments', 'set_input_units_to_au', 'set_mass', 'set_molecular_charge', 'set_multiplicity', 'set_name', 'set_nuclear_charge', 'set_point_group', 'set_provenance', 'set_units', 'set_variable', 'symbol', 'symmetrize', 'symmetry_from_input', 'to_arrays', 'to_dict', 'to_schema', 'to_string', 'translate', 'true_atomic_number', 'units', 'update_geometry', 'x', 'xyz', 'y', 'z']
+YEAH mol_nm = CH3NH2 matches with mol_name = CH3NH2 in file_wfn ++++++
+no_ats in CH3NH2 molecule = 7   file_geom.shape =  (7, 3)
+
+=========================================================
+  CH3NH2  --- Units = Angstrom
+            x            y             z       mass
+  0  C   -0.0337108   -0.0000000   -0.2095083   12.0000000
+  1  H    1.9398567    0.0000000   -0.8083902    1.0078250
+  2  H   -0.9369740    1.6508178   -1.0212039    1.0078250
+  3  H   -0.9369740   -1.6508178   -1.0212039    1.0078250
+  4  N   -0.4140782   -0.0000000    2.5077653   14.0030740
+  5  H    0.3799128    1.5209438    3.2998322    1.0078250
+  6  H    0.3799128   -1.5209438    3.2998322    1.0078250
+opt_mol_geom_setup -->
+    C       -0.033710801916       -0.000000000000       -0.209508261682
+   H        1.939856692663        0.000000000000       -0.808390160240
+   H       -0.936974014612        1.650817776395       -1.021203856346
+   H       -0.936974014612       -1.650817776395       -1.021203856346
+   N       -0.414078240976       -0.000000000000        2.507765320426
+   H        0.379912802272        1.520943827645        3.299832207827
+   H        0.379912802272       -1.520943827645        3.299832207827
+
+ no_com 
+ no_reorient 
+ symmetry c1 
+ units bohr
+
+=========================================================
+Psi4 CH3NH2 center of mass =  [ -0.173013, -3.78179e-14, 1.17197 ]
+Psi4 CH3NH2 rotational consts =  [3.507812 0.495198 0.482691]
+and inertia tensor =>
+ [[ 1.234551e+02 -1.415534e-13  1.158105e+01]
+ [-1.415534e-13  1.215669e+02  1.429967e-12]
+ [ 1.158105e+01  1.429967e-12  1.842340e+01]]
+Psi4 fixed com = True   fixed orientation = True
+ Name of molecule = file_wfn.molecule.name()? CH3NH2
+
+file_wfn.basisset().name() =  6-31G**
+file_wfn.basisset().nbf() =  55
+file_wfn.nirrep() =  1
+
+file_wfn energy = -95.22186424743431
+=========== End of working with numpy nphess <= file_wfn.hess ====
+
+=========================================================
+List psi4 options before reseting below -->
+ [<psi4.core.Options object at 0x000002DCC1899900>]
+dir(test_opts):  ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+End of psi4_options ============================
+energy/gradient options: scf
+
+ mol set to active molecule = <psi4.core.Molecule object at 0x000002DCC188E040>
+
+ in args - init_com = [-0.173013  0.        1.17197 ]
+
+ args --> 
+ (<psi4.core.Molecule object at 0x000002DCC188E040>, 'scf', array([[-3.371080e-02, -4.373701e-14, -2.095083e-01],
+       [ 1.939857e+00,  2.514619e-13, -8.083902e-01],
+       [-9.369740e-01,  1.650818e+00, -1.021204e+00],
+       [-9.369740e-01, -1.650818e+00, -1.021204e+00],
+       [-4.140782e-01, -5.331959e-14,  2.507765e+00],
+       [ 3.799128e-01,  1.520944e+00,  3.299832e+00],
+       [ 3.799128e-01, -1.520944e+00,  3.299832e+00]]), array([-0.173013,  0.      ,  1.17197 ]), array([12.      , 12.      , 12.      ,  1.007825,  1.007825,  1.007825,  1.007825,  1.007825,  1.007825,  1.007825,
+        1.007825,  1.007825, 14.003074, 14.003074, 14.003074,  1.007825,  1.007825,  1.007825,  1.007825,  1.007825,
+        1.007825]), 1.0, 'cart')
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   1 iat =  0  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-2.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.691472e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   2 iat =  0  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-4.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.768786e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   3 iat =  0  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02  1.000000e-02 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-0.173013  0.003866  1.17197 ]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   4 iat =  0  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -1.000000e-02 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-0.173013 -0.003866  1.17197 ]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   5 iat =  0  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -1.995083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.175836e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   6 iat =  0  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.195083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.168104e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   7 iat =  1  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.949857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.726883e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   8 iat =  1  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.929857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.733376e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp   9 iat =  1  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  1.000000e-02 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01  3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  10 iat =  1  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00 -1.000000e-02 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  11 iat =  1  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -7.983902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.172295e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  12 iat =  1  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.183902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.171645e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  13 iat =  2  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.269740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.726883e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  14 iat =  2  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.469740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.733376e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  15 iat =  2  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.660818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01  3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  16 iat =  2  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.640818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  17 iat =  2  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.011204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.172295e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  18 iat =  2  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.031204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.171645e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  19 iat =  3  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.269740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.726883e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  20 iat =  3  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.469740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.733376e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  21 iat =  3  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.640818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01  3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  22 iat =  3  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.660818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  23 iat =  3  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.011204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.172295e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  24 iat =  3  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.031204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.171645e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  25 iat =  4  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.040782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.685020e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  26 iat =  4  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.240782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.775239e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  27 iat =  4  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01  1.000000e-02  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-0.173013  0.004511  1.17197 ]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  28 iat =  4  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -1.000000e-02  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-0.173013 -0.004511  1.17197 ]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  29 iat =  4  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.517765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.176481e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  30 iat =  4  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.497765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.167459e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  31 iat =  5  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.899128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.726883e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  32 iat =  5  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.699128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.733376e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  33 iat =  5  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.530944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01  3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  34 iat =  5  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.510944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  35 iat =  5  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.309832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.172295e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  36 iat =  5  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.289832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.171645e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  37 iat =  6  ic =0 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.899128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.726883e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  38 iat =  6  ic =0 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.699128e-01 -1.520944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.733376e-01 -3.782136e-14  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  39 iat =  6  ic =1 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.510944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01  3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  40 iat =  6  ic =1 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.530944e+00  3.299832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.246629e-04  1.171970e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  41 iat =  6  ic =2 pm = 1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.309832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.172295e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+ calc disp  42 iat =  6  ic =2 pm = -1.000000
+in hess_en_gr_fun: mol = <psi4.core.Molecule object at 0x000002DCC188E040>
+hess_en_gr_fun: mol geom ->
+ [[-3.371080e-02 -4.373701e-14 -2.095083e-01]
+ [ 1.939857e+00  2.514619e-13 -8.083902e-01]
+ [-9.369740e-01  1.650818e+00 -1.021204e+00]
+ [-9.369740e-01 -1.650818e+00 -1.021204e+00]
+ [-4.140782e-01 -5.331959e-14  2.507765e+00]
+ [ 3.799128e-01  1.520944e+00  3.299832e+00]
+ [ 3.799128e-01 -1.520944e+00  3.289832e+00]]
+mol mass =     31.042  test_com =  [-1.730129e-01 -3.782136e-14  1.171645e+00]
+CH3NH2 com_fixed = True  orientation_fixed = True
+
+
+================== Finished doing all atom displacements ==================
+
++-----------------------------------------------------------+
+|      Sorted energies for different atom displacements     |
+|          coord_type =   cart    disp =   0.010     |
+|     First record should be for the reference geom         |
++-----------------------------------------------------------+
+
+ found ref molecule - skip adding grad norm to total gnorm
+sen = 0  and sord = 1
+ 1 at  0 xyz 0 pm  0     DE =   0.00000000000000 E =   -95.22186424743428  |grad| =    0.0003147732
+ 2 at  1 xyz 1 pm -1     DE =   0.00000283970216 E =   -95.22186140773212  |grad| =    0.0009808092
+ 3 at  1 xyz 1 pm  1     DE =   0.00000283970245 E =   -95.22186140773184  |grad| =    0.0009808092
+ 4 at  1 xyz 2 pm  1     DE =   0.00000428611955 E =   -95.22185996131473  |grad| =    0.0015902820
+ 5 at  1 xyz 2 pm -1     DE =   0.00000461252463 E =   -95.22185963490965  |grad| =    0.0015943544
+ 6 at  5 xyz 0 pm  1     DE =   0.00000473329304 E =   -95.22185951414124  |grad| =    0.0031331486
+ 7 at  6 xyz 0 pm  1     DE =   0.00000473329318 E =   -95.22185951414110  |grad| =    0.0031331486
+ 8 at  6 xyz 0 pm -1     DE =   0.00000541533829 E =   -95.22185883209599  |grad| =    0.0031462493
+ 9 at  5 xyz 0 pm -1     DE =   0.00000541533856 E =   -95.22185883209572  |grad| =    0.0031462493
+10 at  2 xyz 2 pm -1     DE =   0.00000549220535 E =   -95.22185875522894  |grad| =    0.0021023898
+11 at  3 xyz 2 pm -1     DE =   0.00000549220570 E =   -95.22185875522858  |grad| =    0.0021023898
+12 at  3 xyz 0 pm  1     DE =   0.00000573948684 E =   -95.22185850794745  |grad| =    0.0024350228
+13 at  2 xyz 0 pm  1     DE =   0.00000573948687 E =   -95.22185850794742  |grad| =    0.0024350228
+14 at  3 xyz 2 pm  1     DE =   0.00000580165818 E =   -95.22185844577611  |grad| =    0.0021085481
+15 at  2 xyz 2 pm  1     DE =   0.00000580165819 E =   -95.22185844577609  |grad| =    0.0021085481
+16 at  2 xyz 0 pm -1     DE =   0.00000616452330 E =   -95.22185808291098  |grad| =    0.0024230174
+17 at  3 xyz 0 pm -1     DE =   0.00000616452338 E =   -95.22185808291090  |grad| =    0.0024230174
+18 at  5 xyz 2 pm  1     DE =   0.00000735955278 E =   -95.22185688788150  |grad| =    0.0030467729
+19 at  6 xyz 2 pm  1     DE =   0.00000735955318 E =   -95.22185688788110  |grad| =    0.0030467729
+20 at  5 xyz 2 pm -1     DE =   0.00000752877075 E =   -95.22185671866353  |grad| =    0.0030591772
+21 at  6 xyz 2 pm -1     DE =   0.00000752877077 E =   -95.22185671866352  |grad| =    0.0030591772
+22 at  2 xyz 1 pm  1     DE =   0.00001259427080 E =   -95.22185165316348  |grad| =    0.0040957714
+23 at  3 xyz 1 pm -1     DE =   0.00001259427097 E =   -95.22185165316331  |grad| =    0.0040957714
+24 at  3 xyz 1 pm  1     DE =   0.00001360117381 E =   -95.22185064626048  |grad| =    0.0041912894
+25 at  2 xyz 1 pm -1     DE =   0.00001360117392 E =   -95.22185064626036  |grad| =    0.0041912894
+26 at  4 xyz 0 pm -1     DE =   0.00001384353844 E =   -95.22185040389584  |grad| =    0.0042293584
+27 at  4 xyz 0 pm  1     DE =   0.00001415066401 E =   -95.22185009677027  |grad| =    0.0042162716
+28 at  1 xyz 0 pm  1     DE =   0.00001583920424 E =   -95.22184840823004  |grad| =    0.0045250993
+29 at  1 xyz 0 pm -1     DE =   0.00001714227953 E =   -95.22184710515475  |grad| =    0.0046644491
+30 at  5 xyz 1 pm  1     DE =   0.00001724477886 E =   -95.22184700265542  |grad| =    0.0056830152
+31 at  6 xyz 1 pm -1     DE =   0.00001724477892 E =   -95.22184700265537  |grad| =    0.0056830152
+32 at  5 xyz 1 pm -1     DE =   0.00001913161270 E =   -95.22184511582158  |grad| =    0.0058280778
+33 at  6 xyz 1 pm  1     DE =   0.00001913161285 E =   -95.22184511582144  |grad| =    0.0058280778
+34 at  0 xyz 2 pm  1     DE =   0.00002714773474 E =   -95.22183709969954  |grad| =    0.0067694310
+35 at  4 xyz 2 pm -1     DE =   0.00002911868647 E =   -95.22183512874781  |grad| =    0.0075890974
+36 at  0 xyz 0 pm -1     DE =   0.00002951211313 E =   -95.22183473532115  |grad| =    0.0073300648
+37 at  0 xyz 2 pm -1     DE =   0.00003003177069 E =   -95.22183421566359  |grad| =    0.0066322627
+38 at  4 xyz 2 pm  1     DE =   0.00003203009722 E =   -95.22183221733707  |grad| =    0.0074631621
+39 at  0 xyz 0 pm  1     DE =   0.00003272566605 E =   -95.22183152176824  |grad| =    0.0074669495
+40 at  0 xyz 1 pm  1     DE =   0.00003380826699 E =   -95.22183043916729  |grad| =    0.0079818014
+41 at  0 xyz 1 pm -1     DE =   0.00003380826733 E =   -95.22183043916695  |grad| =    0.0079818014
+42 at  4 xyz 1 pm  1     DE =   0.00003964016051 E =   -95.22182460727377  |grad| =    0.0098926343
+43 at  4 xyz 1 pm -1     DE =   0.00003964016062 E =   -95.22182460727366  |grad| =    0.0098926343
++-----------------------------------------------------------+
+|  en_mean =  0.000014872  en_std =  0.000011121    gnorm_mean =  0.004387767
+numpy hess matrix -- num atoms = 7
+Atom row 0
+ 0  0  6.224e-01 -9.124e-14  2.037e-02
+ 1  0  2.637e-14  6.762e-01  1.721e-12
+ 2  0  2.038e-02 -1.301e-13  5.718e-01
+-------------------------------------------------------------------------
+Atom row 1
+ 3  0 -3.047e-01  5.742e-14  5.852e-02  1  3.298e-01  2.731e-14 -7.384e-02
+ 4  0 -4.382e-13 -6.588e-02  2.998e-13  1  1.080e-12  5.680e-02 -3.358e-13
+ 5  0  5.759e-02  3.072e-13 -7.648e-02  1 -7.381e-02 -3.955e-14  8.899e-02
+-------------------------------------------------------------------------
+Atom row 2
+ 6  0 -1.186e-01  1.051e-01 -4.860e-02  1 -1.574e-02  3.087e-02 -1.274e-02
+ 7  0  1.029e-01 -2.481e-01  8.741e-02  1 -3.622e-04  2.218e-03 -1.553e-03
+ 8  0 -4.450e-02  7.805e-02 -9.540e-02  1  2.566e-03 -7.410e-03  4.996e-03
+-------------------------------------------------------------------------
+ 6  2  1.190e-01 -1.143e-01  4.995e-02
+ 7  2 -1.143e-01  2.620e-01 -9.667e-02
+ 8  2  4.995e-02 -9.665e-02  1.129e-01
+-------------------------------------------------------------------------
+Atom row 3
+ 9  0 -1.186e-01 -1.051e-01 -4.860e-02  1 -1.574e-02 -3.087e-02 -1.274e-02
+10  0 -1.029e-01 -2.481e-01 -8.741e-02  1  3.622e-04  2.218e-03  1.553e-03
+11  0 -4.450e-02 -7.805e-02 -9.540e-02  1  2.566e-03  7.410e-03  4.996e-03
+-------------------------------------------------------------------------
+ 9  2  9.271e-03  1.432e-02  8.003e-03  3  1.190e-01  1.143e-01  4.995e-02
+10  2 -1.432e-02 -2.279e-02 -1.095e-02  3  1.143e-01  2.620e-01  9.667e-02
+11  2  8.003e-03  1.095e-02  6.747e-03  3  4.995e-02  9.665e-02  1.129e-01
+-------------------------------------------------------------------------
+Atom row 4
+12  0 -7.950e-02 -2.435e-14 -2.731e-03  1  4.210e-03  2.708e-14  4.189e-02
+13  0 -2.096e-13 -1.221e-01 -8.077e-13  1  3.803e-13  4.779e-03  5.079e-13
+14  0  5.382e-02 -4.093e-14 -2.708e-01  1  8.671e-03 -2.795e-14 -2.606e-02
+-------------------------------------------------------------------------
+12  2  5.525e-03 -2.299e-03 -1.480e-02  3  5.525e-03  2.299e-03 -1.480e-02
+13  2 -7.121e-03  3.886e-03  3.839e-02  3  7.121e-03  3.886e-03 -3.839e-02
+14  2  2.237e-03  2.247e-04 -2.174e-02  3  2.237e-03 -2.247e-04 -2.174e-02
+-------------------------------------------------------------------------
+12  4  2.799e-01 -7.025e-13  1.428e-01
+13  4 -7.772e-14  7.928e-01  2.312e-12
+14  4  1.428e-01  1.785e-13  6.115e-01
+-------------------------------------------------------------------------
+Atom row 5
+15  0 -4.687e-04  6.869e-03  1.052e-02  1  1.070e-03  1.420e-03 -9.835e-05
+16  0 -7.769e-04  4.004e-03  3.296e-03  1  3.546e-04 -6.442e-05  7.825e-04
+17  0 -2.140e-02 -3.914e-02 -1.686e-02  1  7.582e-04 -1.962e-04  1.783e-03
+-------------------------------------------------------------------------
+15  2 -2.473e-04 -2.835e-05 -1.224e-03  3  7.791e-04  2.525e-04  2.982e-07
+16  2  3.305e-04  5.630e-04 -8.719e-05  3  5.587e-04  2.262e-03  1.332e-03
+17  2 -5.845e-04  6.871e-04  1.410e-03  3  1.729e-03  1.053e-03 -8.953e-03
+-------------------------------------------------------------------------
+15  4 -1.078e-01 -1.835e-01 -1.049e-01  5  1.015e-01  1.544e-01  8.613e-02
+16  4 -1.343e-01 -3.416e-01 -1.330e-01  5  1.544e-01  3.638e-01  1.450e-01
+17  4 -7.620e-02 -1.248e-01 -1.356e-01  5  8.613e-02  1.450e-01  1.489e-01
+-------------------------------------------------------------------------
+Atom row 6
+18  0 -4.687e-04 -6.869e-03  1.052e-02  1  1.070e-03 -1.420e-03 -9.835e-05
+19  0  7.769e-04  4.004e-03 -3.296e-03  1 -3.546e-04 -6.442e-05 -7.825e-04
+20  0 -2.140e-02  3.914e-02 -1.686e-02  1  7.582e-04  1.962e-04  1.783e-03
+-------------------------------------------------------------------------
+18  2  7.791e-04 -2.525e-04  2.982e-07  3 -2.473e-04  2.835e-05 -1.224e-03
+19  2 -5.587e-04  2.262e-03 -1.332e-03  3 -3.305e-04  5.630e-04  8.719e-05
+20  2  1.729e-03 -1.053e-03 -8.953e-03  3 -5.845e-04 -6.871e-04  1.410e-03
+-------------------------------------------------------------------------
+18  4 -1.078e-01  1.835e-01 -1.049e-01  5  5.232e-03 -2.058e-02  9.558e-03
+19  4  1.343e-01 -3.416e-01  1.330e-01  5  2.058e-02 -2.891e-02  1.735e-02
+20  4 -7.620e-02  1.248e-01 -1.356e-01  5  9.558e-03 -1.735e-02  9.322e-03
+-------------------------------------------------------------------------
+18  6  1.015e-01 -1.544e-01  8.613e-02
+19  6 -1.544e-01  3.638e-01 -1.450e-01
+20  6  8.613e-02 -1.450e-01  1.489e-01
+-------------------------------------------------------------------------
+ iind,jjnd = 1,0  hess[ii,jj] =     0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 2,0  hess[ii,jj] =     0.020380003   hess[jj,ii] =     0.020365091   ave_hess =     0.020372547
+ iind,jjnd = 2,1  hess[ii,jj] =    -0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 3,0  hess[ii,jj] =    -0.304704960   hess[jj,ii] =    -0.304705535   ave_hess =    -0.304705247
+ iind,jjnd = 3,1  hess[ii,jj] =     0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 3,2  hess[ii,jj] =     0.058520878   hess[jj,ii] =     0.058494087   ave_hess =     0.058507482
+ iind,jjnd = 4,0  hess[ii,jj] =    -0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 4,1  hess[ii,jj] =    -0.065882408   hess[jj,ii] =    -0.065882029   ave_hess =    -0.065882218
+ iind,jjnd = 4,2  hess[ii,jj] =     0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 4,3  hess[ii,jj] =     0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 5,0  hess[ii,jj] =     0.057590906   hess[jj,ii] =     0.057619114   ave_hess =     0.057605010
+ iind,jjnd = 5,1  hess[ii,jj] =     0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 5,2  hess[ii,jj] =    -0.076484323   hess[jj,ii] =    -0.076483448   ave_hess =    -0.076483885
+ iind,jjnd = 5,3  hess[ii,jj] =    -0.073814883   hess[jj,ii] =    -0.073840652   ave_hess =    -0.073827767
+ iind,jjnd = 5,4  hess[ii,jj] =    -0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 6,0  hess[ii,jj] =    -0.118624704   hess[jj,ii] =    -0.118623652   ave_hess =    -0.118624178
+ iind,jjnd = 6,1  hess[ii,jj] =     0.105057942   hess[jj,ii] =     0.105080156   ave_hess =     0.105069049
+ iind,jjnd = 6,2  hess[ii,jj] =    -0.048598638   hess[jj,ii] =    -0.048597768   ave_hess =    -0.048598203
+ iind,jjnd = 6,3  hess[ii,jj] =    -0.015739036   hess[jj,ii] =    -0.015738798   ave_hess =    -0.015738917
+ iind,jjnd = 6,4  hess[ii,jj] =     0.030874627   hess[jj,ii] =     0.030874065   ave_hess =     0.030874346
+ iind,jjnd = 6,5  hess[ii,jj] =    -0.012737003   hess[jj,ii] =    -0.012736772   ave_hess =    -0.012736887
+ iind,jjnd = 7,0  hess[ii,jj] =     0.102902895   hess[jj,ii] =     0.102883987   ave_hess =     0.102893441
+ iind,jjnd = 7,1  hess[ii,jj] =    -0.248093042   hess[jj,ii] =    -0.248092551   ave_hess =    -0.248092796
+ iind,jjnd = 7,2  hess[ii,jj] =     0.087408171   hess[jj,ii] =     0.087389214   ave_hess =     0.087398692
+ iind,jjnd = 7,3  hess[ii,jj] =    -0.000362218   hess[jj,ii] =    -0.000362079   ave_hess =    -0.000362148
+ iind,jjnd = 7,4  hess[ii,jj] =     0.002218176   hess[jj,ii] =     0.002218289   ave_hess =     0.002218232
+ iind,jjnd = 7,5  hess[ii,jj] =    -0.001552570   hess[jj,ii] =    -0.001552615   ave_hess =    -0.001552593
+ iind,jjnd = 7,6  hess[ii,jj] =    -0.114281595   hess[jj,ii] =    -0.114262365   ave_hess =    -0.114271980
+ iind,jjnd = 8,0  hess[ii,jj] =    -0.044499531   hess[jj,ii] =    -0.044501083   ave_hess =    -0.044500307
+ iind,jjnd = 8,1  hess[ii,jj] =     0.078046999   hess[jj,ii] =     0.078067954   ave_hess =     0.078057477
+ iind,jjnd = 8,2  hess[ii,jj] =    -0.095396928   hess[jj,ii] =    -0.095395658   ave_hess =    -0.095396293
+ iind,jjnd = 8,3  hess[ii,jj] =     0.002566499   hess[jj,ii] =     0.002566759   ave_hess =     0.002566629
+ iind,jjnd = 8,4  hess[ii,jj] =    -0.007409845   hess[jj,ii] =    -0.007409989   ave_hess =    -0.007409917
+ iind,jjnd = 8,5  hess[ii,jj] =     0.004995819   hess[jj,ii] =     0.004995879   ave_hess =     0.004995849
+ iind,jjnd = 8,6  hess[ii,jj] =     0.049950108   hess[jj,ii] =     0.049950809   ave_hess =     0.049950458
+ iind,jjnd = 8,7  hess[ii,jj] =    -0.096650089   hess[jj,ii] =    -0.096668478   ave_hess =    -0.096659284
+ iind,jjnd = 9,0  hess[ii,jj] =    -0.118624704   hess[jj,ii] =    -0.118623652   ave_hess =    -0.118624178
+ iind,jjnd = 9,1  hess[ii,jj] =    -0.105057942   hess[jj,ii] =    -0.105080156   ave_hess =    -0.105069049
+ iind,jjnd = 9,2  hess[ii,jj] =    -0.048598638   hess[jj,ii] =    -0.048597768   ave_hess =    -0.048598203
+ iind,jjnd = 9,3  hess[ii,jj] =    -0.015739036   hess[jj,ii] =    -0.015738798   ave_hess =    -0.015738917
+ iind,jjnd = 9,4  hess[ii,jj] =    -0.030874627   hess[jj,ii] =    -0.030874065   ave_hess =    -0.030874346
+ iind,jjnd = 9,5  hess[ii,jj] =    -0.012737003   hess[jj,ii] =    -0.012736772   ave_hess =    -0.012736887
+ iind,jjnd = 9,6  hess[ii,jj] =     0.009270810   hess[jj,ii] =     0.009270810   ave_hess =     0.009270810
+ iind,jjnd = 9,7  hess[ii,jj] =     0.014320654   hess[jj,ii] =     0.014321024   ave_hess =     0.014320839
+ iind,jjnd = 9,8  hess[ii,jj] =     0.008003452   hess[jj,ii] =     0.008003403   ave_hess =     0.008003427
+ iind,jjnd = 10,0  hess[ii,jj] =    -0.102902895   hess[jj,ii] =    -0.102883987   ave_hess =    -0.102893441
+ iind,jjnd = 10,1  hess[ii,jj] =    -0.248093042   hess[jj,ii] =    -0.248092551   ave_hess =    -0.248092796
+ iind,jjnd = 10,2  hess[ii,jj] =    -0.087408171   hess[jj,ii] =    -0.087389214   ave_hess =    -0.087398692
+ iind,jjnd = 10,3  hess[ii,jj] =     0.000362218   hess[jj,ii] =     0.000362079   ave_hess =     0.000362148
+ iind,jjnd = 10,4  hess[ii,jj] =     0.002218176   hess[jj,ii] =     0.002218289   ave_hess =     0.002218232
+ iind,jjnd = 10,5  hess[ii,jj] =     0.001552570   hess[jj,ii] =     0.001552615   ave_hess =     0.001552593
+ iind,jjnd = 10,6  hess[ii,jj] =    -0.014321024   hess[jj,ii] =    -0.014320654   ave_hess =    -0.014320839
+ iind,jjnd = 10,7  hess[ii,jj] =    -0.022793571   hess[jj,ii] =    -0.022793571   ave_hess =    -0.022793571
+ iind,jjnd = 10,8  hess[ii,jj] =    -0.010954898   hess[jj,ii] =    -0.010954564   ave_hess =    -0.010954731
+ iind,jjnd = 10,9  hess[ii,jj] =     0.114281595   hess[jj,ii] =     0.114262365   ave_hess =     0.114271980
+ iind,jjnd = 11,0  hess[ii,jj] =    -0.044499531   hess[jj,ii] =    -0.044501083   ave_hess =    -0.044500307
+ iind,jjnd = 11,1  hess[ii,jj] =    -0.078046999   hess[jj,ii] =    -0.078067954   ave_hess =    -0.078057477
+ iind,jjnd = 11,2  hess[ii,jj] =    -0.095396928   hess[jj,ii] =    -0.095395658   ave_hess =    -0.095396293
+ iind,jjnd = 11,3  hess[ii,jj] =     0.002566499   hess[jj,ii] =     0.002566759   ave_hess =     0.002566629
+ iind,jjnd = 11,4  hess[ii,jj] =     0.007409845   hess[jj,ii] =     0.007409989   ave_hess =     0.007409917
+ iind,jjnd = 11,5  hess[ii,jj] =     0.004995819   hess[jj,ii] =     0.004995879   ave_hess =     0.004995849
+ iind,jjnd = 11,6  hess[ii,jj] =     0.008003403   hess[jj,ii] =     0.008003452   ave_hess =     0.008003427
+ iind,jjnd = 11,7  hess[ii,jj] =     0.010954564   hess[jj,ii] =     0.010954898   ave_hess =     0.010954731
+ iind,jjnd = 11,8  hess[ii,jj] =     0.006747413   hess[jj,ii] =     0.006747413   ave_hess =     0.006747413
+ iind,jjnd = 11,9  hess[ii,jj] =     0.049950108   hess[jj,ii] =     0.049950809   ave_hess =     0.049950458
+ iind,jjnd = 11,10  hess[ii,jj] =     0.096650089   hess[jj,ii] =     0.096668478   ave_hess =     0.096659284
+ iind,jjnd = 12,0  hess[ii,jj] =    -0.079499257   hess[jj,ii] =    -0.079499213   ave_hess =    -0.079499235
+ iind,jjnd = 12,1  hess[ii,jj] =    -0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 12,2  hess[ii,jj] =    -0.002730741   hess[jj,ii] =    -0.002723277   ave_hess =    -0.002727009
+ iind,jjnd = 12,3  hess[ii,jj] =     0.004209939   hess[jj,ii] =     0.004209500   ave_hess =     0.004209720
+ iind,jjnd = 12,4  hess[ii,jj] =     0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 12,5  hess[ii,jj] =     0.041893391   hess[jj,ii] =     0.041894374   ave_hess =     0.041893883
+ iind,jjnd = 12,6  hess[ii,jj] =     0.005524550   hess[jj,ii] =     0.005524323   ave_hess =     0.005524436
+ iind,jjnd = 12,7  hess[ii,jj] =    -0.002299188   hess[jj,ii] =    -0.002299232   ave_hess =    -0.002299210
+ iind,jjnd = 12,8  hess[ii,jj] =    -0.014796346   hess[jj,ii] =    -0.014796507   ave_hess =    -0.014796427
+ iind,jjnd = 12,9  hess[ii,jj] =     0.005524550   hess[jj,ii] =     0.005524323   ave_hess =     0.005524436
+ iind,jjnd = 12,10  hess[ii,jj] =     0.002299188   hess[jj,ii] =     0.002299232   ave_hess =     0.002299210
+ iind,jjnd = 12,11  hess[ii,jj] =    -0.014796346   hess[jj,ii] =    -0.014796507   ave_hess =    -0.014796427
+ iind,jjnd = 13,0  hess[ii,jj] =    -0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 13,1  hess[ii,jj] =    -0.122114334   hess[jj,ii] =    -0.122114947   ave_hess =    -0.122114640
+ iind,jjnd = 13,2  hess[ii,jj] =    -0.000000000   hess[jj,ii] =     0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 13,3  hess[ii,jj] =     0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 13,4  hess[ii,jj] =     0.004779434   hess[jj,ii] =     0.004779656   ave_hess =     0.004779545
+ iind,jjnd = 13,5  hess[ii,jj] =     0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 13,6  hess[ii,jj] =    -0.007121376   hess[jj,ii] =    -0.007121279   ave_hess =    -0.007121327
+ iind,jjnd = 13,7  hess[ii,jj] =     0.003885775   hess[jj,ii] =     0.003885497   ave_hess =     0.003885636
+ iind,jjnd = 13,8  hess[ii,jj] =     0.038385852   hess[jj,ii] =     0.038386534   ave_hess =     0.038386193
+ iind,jjnd = 13,9  hess[ii,jj] =     0.007121376   hess[jj,ii] =     0.007121279   ave_hess =     0.007121327
+ iind,jjnd = 13,10  hess[ii,jj] =     0.003885775   hess[jj,ii] =     0.003885497   ave_hess =     0.003885636
+ iind,jjnd = 13,11  hess[ii,jj] =    -0.038385852   hess[jj,ii] =    -0.038386534   ave_hess =    -0.038386193
+ iind,jjnd = 13,12  hess[ii,jj] =    -0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 14,0  hess[ii,jj] =     0.053821863   hess[jj,ii] =     0.053810064   ave_hess =     0.053815964
+ iind,jjnd = 14,1  hess[ii,jj] =    -0.000000000   hess[jj,ii] =    -0.000000000   ave_hess =    -0.000000000
+ iind,jjnd = 14,2  hess[ii,jj] =    -0.270807199   hess[jj,ii] =    -0.270806141   ave_hess =    -0.270806670
+ iind,jjnd = 14,3  hess[ii,jj] =     0.008671045   hess[jj,ii] =     0.008669825   ave_hess =     0.008670435
+ iind,jjnd = 14,4  hess[ii,jj] =    -0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 14,5  hess[ii,jj] =    -0.026059347   hess[jj,ii] =    -0.026059419   ave_hess =    -0.026059383
+ iind,jjnd = 14,6  hess[ii,jj] =     0.002236708   hess[jj,ii] =     0.002236733   ave_hess =     0.002236720
+ iind,jjnd = 14,7  hess[ii,jj] =     0.000224712   hess[jj,ii] =     0.000224090   ave_hess =     0.000224401
+ iind,jjnd = 14,8  hess[ii,jj] =    -0.021738886   hess[jj,ii] =    -0.021738937   ave_hess =    -0.021738911
+ iind,jjnd = 14,9  hess[ii,jj] =     0.002236708   hess[jj,ii] =     0.002236733   ave_hess =     0.002236721
+ iind,jjnd = 14,10  hess[ii,jj] =    -0.000224712   hess[jj,ii] =    -0.000224090   ave_hess =    -0.000224401
+ iind,jjnd = 14,11  hess[ii,jj] =    -0.021738886   hess[jj,ii] =    -0.021738937   ave_hess =    -0.021738911
+ iind,jjnd = 14,12  hess[ii,jj] =     0.142812420   hess[jj,ii] =     0.142824546   ave_hess =     0.142818483
+ iind,jjnd = 14,13  hess[ii,jj] =     0.000000000   hess[jj,ii] =     0.000000000   ave_hess =     0.000000000
+ iind,jjnd = 15,0  hess[ii,jj] =    -0.000468673   hess[jj,ii] =    -0.000468363   ave_hess =    -0.000468518
+ iind,jjnd = 15,1  hess[ii,jj] =     0.006869056   hess[jj,ii] =     0.006869414   ave_hess =     0.006869235
+ iind,jjnd = 15,2  hess[ii,jj] =     0.010522011   hess[jj,ii] =     0.010522361   ave_hess =     0.010522186
+ iind,jjnd = 15,3  hess[ii,jj] =     0.001069593   hess[jj,ii] =     0.001069579   ave_hess =     0.001069586
+ iind,jjnd = 15,4  hess[ii,jj] =     0.001420098   hess[jj,ii] =     0.001420081   ave_hess =     0.001420090
+ iind,jjnd = 15,5  hess[ii,jj] =    -0.000098351   hess[jj,ii] =    -0.000098427   ave_hess =    -0.000098389
+ iind,jjnd = 15,6  hess[ii,jj] =    -0.000247263   hess[jj,ii] =    -0.000247250   ave_hess =    -0.000247256
+ iind,jjnd = 15,7  hess[ii,jj] =    -0.000028347   hess[jj,ii] =    -0.000028380   ave_hess =    -0.000028363
+ iind,jjnd = 15,8  hess[ii,jj] =    -0.001224371   hess[jj,ii] =    -0.001224370   ave_hess =    -0.001224370
+ iind,jjnd = 15,9  hess[ii,jj] =     0.000779099   hess[jj,ii] =     0.000779063   ave_hess =     0.000779081
+ iind,jjnd = 15,10  hess[ii,jj] =     0.000252514   hess[jj,ii] =     0.000252496   ave_hess =     0.000252505
+ iind,jjnd = 15,11  hess[ii,jj] =     0.000000298   hess[jj,ii] =     0.000000399   ave_hess =     0.000000349
+ iind,jjnd = 15,12  hess[ii,jj] =    -0.107845891   hess[jj,ii] =    -0.107844119   ave_hess =    -0.107845005
+ iind,jjnd = 15,13  hess[ii,jj] =    -0.183510178   hess[jj,ii] =    -0.183546628   ave_hess =    -0.183528403
+ iind,jjnd = 15,14  hess[ii,jj] =    -0.104889378   hess[jj,ii] =    -0.104889372   ave_hess =    -0.104889375
+ iind,jjnd = 16,0  hess[ii,jj] =    -0.000776917   hess[jj,ii] =    -0.000776916   ave_hess =    -0.000776916
+ iind,jjnd = 16,1  hess[ii,jj] =     0.004004374   hess[jj,ii] =     0.004004714   ave_hess =     0.004004544
+ iind,jjnd = 16,2  hess[ii,jj] =     0.003295573   hess[jj,ii] =     0.003294717   ave_hess =     0.003295145
+ iind,jjnd = 16,3  hess[ii,jj] =     0.000354612   hess[jj,ii] =     0.000354597   ave_hess =     0.000354604
+ iind,jjnd = 16,4  hess[ii,jj] =    -0.000064420   hess[jj,ii] =    -0.000064422   ave_hess =    -0.000064421
+ iind,jjnd = 16,5  hess[ii,jj] =     0.000782508   hess[jj,ii] =     0.000782526   ave_hess =     0.000782517
+ iind,jjnd = 16,6  hess[ii,jj] =     0.000330489   hess[jj,ii] =     0.000330470   ave_hess =     0.000330480
+ iind,jjnd = 16,7  hess[ii,jj] =     0.000562990   hess[jj,ii] =     0.000562982   ave_hess =     0.000562986
+ iind,jjnd = 16,8  hess[ii,jj] =    -0.000087193   hess[jj,ii] =    -0.000087169   ave_hess =    -0.000087181
+ iind,jjnd = 16,9  hess[ii,jj] =     0.000558729   hess[jj,ii] =     0.000558741   ave_hess =     0.000558735
+ iind,jjnd = 16,10  hess[ii,jj] =     0.002261556   hess[jj,ii] =     0.002261557   ave_hess =     0.002261556
+ iind,jjnd = 16,11  hess[ii,jj] =     0.001331877   hess[jj,ii] =     0.001331866   ave_hess =     0.001331871
+ iind,jjnd = 16,12  hess[ii,jj] =    -0.134329127   hess[jj,ii] =    -0.134296726   ave_hess =    -0.134312927
+ iind,jjnd = 16,13  hess[ii,jj] =    -0.341626396   hess[jj,ii] =    -0.341625148   ave_hess =    -0.341625772
+ iind,jjnd = 16,14  hess[ii,jj] =    -0.133007189   hess[jj,ii] =    -0.132974985   ave_hess =    -0.132991087
+ iind,jjnd = 16,15  hess[ii,jj] =     0.154446937   hess[jj,ii] =     0.154412910   ave_hess =     0.154429924
+ iind,jjnd = 17,0  hess[ii,jj] =    -0.021396501   hess[jj,ii] =    -0.021396052   ave_hess =    -0.021396276
+ iind,jjnd = 17,1  hess[ii,jj] =    -0.039139464   hess[jj,ii] =    -0.039138762   ave_hess =    -0.039139113
+ iind,jjnd = 17,2  hess[ii,jj] =    -0.016862580   hess[jj,ii] =    -0.016862293   ave_hess =    -0.016862437
+ iind,jjnd = 17,3  hess[ii,jj] =     0.000758210   hess[jj,ii] =     0.000758216   ave_hess =     0.000758213
+ iind,jjnd = 17,4  hess[ii,jj] =    -0.000196214   hess[jj,ii] =    -0.000196222   ave_hess =    -0.000196218
+ iind,jjnd = 17,5  hess[ii,jj] =     0.001783367   hess[jj,ii] =     0.001783345   ave_hess =     0.001783356
+ iind,jjnd = 17,6  hess[ii,jj] =    -0.000584510   hess[jj,ii] =    -0.000584515   ave_hess =    -0.000584512
+ iind,jjnd = 17,7  hess[ii,jj] =     0.000687092   hess[jj,ii] =     0.000687112   ave_hess =     0.000687102
+ iind,jjnd = 17,8  hess[ii,jj] =     0.001409826   hess[jj,ii] =     0.001409815   ave_hess =     0.001409821
+ iind,jjnd = 17,9  hess[ii,jj] =     0.001729220   hess[jj,ii] =     0.001729162   ave_hess =     0.001729191
+ iind,jjnd = 17,10  hess[ii,jj] =     0.001053202   hess[jj,ii] =     0.001053222   ave_hess =     0.001053212
+ iind,jjnd = 17,11  hess[ii,jj] =    -0.008953327   hess[jj,ii] =    -0.008953312   ave_hess =    -0.008953320
+ iind,jjnd = 17,12  hess[ii,jj] =    -0.076196842   hess[jj,ii] =    -0.076197252   ave_hess =    -0.076197047
+ iind,jjnd = 17,13  hess[ii,jj] =    -0.124756227   hess[jj,ii] =    -0.124790656   ave_hess =    -0.124773442
+ iind,jjnd = 17,14  hess[ii,jj] =    -0.135577762   hess[jj,ii] =    -0.135575689   ave_hess =    -0.135576726
+ iind,jjnd = 17,15  hess[ii,jj] =     0.086132631   hess[jj,ii] =     0.086132131   ave_hess =     0.086132381
+ iind,jjnd = 17,16  hess[ii,jj] =     0.145002368   hess[jj,ii] =     0.145034173   ave_hess =     0.145018271
+ iind,jjnd = 18,0  hess[ii,jj] =    -0.000468673   hess[jj,ii] =    -0.000468363   ave_hess =    -0.000468518
+ iind,jjnd = 18,1  hess[ii,jj] =    -0.006869056   hess[jj,ii] =    -0.006869414   ave_hess =    -0.006869235
+ iind,jjnd = 18,2  hess[ii,jj] =     0.010522011   hess[jj,ii] =     0.010522361   ave_hess =     0.010522186
+ iind,jjnd = 18,3  hess[ii,jj] =     0.001069593   hess[jj,ii] =     0.001069579   ave_hess =     0.001069586
+ iind,jjnd = 18,4  hess[ii,jj] =    -0.001420098   hess[jj,ii] =    -0.001420081   ave_hess =    -0.001420090
+ iind,jjnd = 18,5  hess[ii,jj] =    -0.000098351   hess[jj,ii] =    -0.000098427   ave_hess =    -0.000098389
+ iind,jjnd = 18,6  hess[ii,jj] =     0.000779099   hess[jj,ii] =     0.000779063   ave_hess =     0.000779081
+ iind,jjnd = 18,7  hess[ii,jj] =    -0.000252514   hess[jj,ii] =    -0.000252496   ave_hess =    -0.000252505
+ iind,jjnd = 18,8  hess[ii,jj] =     0.000000298   hess[jj,ii] =     0.000000399   ave_hess =     0.000000349
+ iind,jjnd = 18,9  hess[ii,jj] =    -0.000247263   hess[jj,ii] =    -0.000247250   ave_hess =    -0.000247256
+ iind,jjnd = 18,10  hess[ii,jj] =     0.000028347   hess[jj,ii] =     0.000028380   ave_hess =     0.000028363
+ iind,jjnd = 18,11  hess[ii,jj] =    -0.001224371   hess[jj,ii] =    -0.001224370   ave_hess =    -0.001224370
+ iind,jjnd = 18,12  hess[ii,jj] =    -0.107845891   hess[jj,ii] =    -0.107844119   ave_hess =    -0.107845005
+ iind,jjnd = 18,13  hess[ii,jj] =     0.183510178   hess[jj,ii] =     0.183546628   ave_hess =     0.183528403
+ iind,jjnd = 18,14  hess[ii,jj] =    -0.104889378   hess[jj,ii] =    -0.104889372   ave_hess =    -0.104889375
+ iind,jjnd = 18,15  hess[ii,jj] =     0.005232023   hess[jj,ii] =     0.005232023   ave_hess =     0.005232023
+ iind,jjnd = 18,16  hess[ii,jj] =    -0.020583946   hess[jj,ii] =    -0.020584724   ave_hess =    -0.020584335
+ iind,jjnd = 18,17  hess[ii,jj] =     0.009557659   hess[jj,ii] =     0.009557793   ave_hess =     0.009557726
+ iind,jjnd = 19,0  hess[ii,jj] =     0.000776917   hess[jj,ii] =     0.000776916   ave_hess =     0.000776916
+ iind,jjnd = 19,1  hess[ii,jj] =     0.004004374   hess[jj,ii] =     0.004004714   ave_hess =     0.004004544
+ iind,jjnd = 19,2  hess[ii,jj] =    -0.003295573   hess[jj,ii] =    -0.003294717   ave_hess =    -0.003295145
+ iind,jjnd = 19,3  hess[ii,jj] =    -0.000354612   hess[jj,ii] =    -0.000354597   ave_hess =    -0.000354604
+ iind,jjnd = 19,4  hess[ii,jj] =    -0.000064420   hess[jj,ii] =    -0.000064422   ave_hess =    -0.000064421
+ iind,jjnd = 19,5  hess[ii,jj] =    -0.000782508   hess[jj,ii] =    -0.000782526   ave_hess =    -0.000782517
+ iind,jjnd = 19,6  hess[ii,jj] =    -0.000558729   hess[jj,ii] =    -0.000558741   ave_hess =    -0.000558735
+ iind,jjnd = 19,7  hess[ii,jj] =     0.002261556   hess[jj,ii] =     0.002261557   ave_hess =     0.002261556
+ iind,jjnd = 19,8  hess[ii,jj] =    -0.001331877   hess[jj,ii] =    -0.001331866   ave_hess =    -0.001331871
+ iind,jjnd = 19,9  hess[ii,jj] =    -0.000330489   hess[jj,ii] =    -0.000330470   ave_hess =    -0.000330480
+ iind,jjnd = 19,10  hess[ii,jj] =     0.000562990   hess[jj,ii] =     0.000562982   ave_hess =     0.000562986
+ iind,jjnd = 19,11  hess[ii,jj] =     0.000087193   hess[jj,ii] =     0.000087169   ave_hess =     0.000087181
+ iind,jjnd = 19,12  hess[ii,jj] =     0.134329127   hess[jj,ii] =     0.134296726   ave_hess =     0.134312927
+ iind,jjnd = 19,13  hess[ii,jj] =    -0.341626396   hess[jj,ii] =    -0.341625148   ave_hess =    -0.341625772
+ iind,jjnd = 19,14  hess[ii,jj] =     0.133007189   hess[jj,ii] =     0.132974985   ave_hess =     0.132991087
+ iind,jjnd = 19,15  hess[ii,jj] =     0.020584724   hess[jj,ii] =     0.020583946   ave_hess =     0.020584335
+ iind,jjnd = 19,16  hess[ii,jj] =    -0.028908705   hess[jj,ii] =    -0.028908705   ave_hess =    -0.028908705
+ iind,jjnd = 19,17  hess[ii,jj] =     0.017349748   hess[jj,ii] =     0.017349244   ave_hess =     0.017349496
+ iind,jjnd = 19,18  hess[ii,jj] =    -0.154446937   hess[jj,ii] =    -0.154412910   ave_hess =    -0.154429924
+ iind,jjnd = 20,0  hess[ii,jj] =    -0.021396501   hess[jj,ii] =    -0.021396052   ave_hess =    -0.021396276
+ iind,jjnd = 20,1  hess[ii,jj] =     0.039139464   hess[jj,ii] =     0.039138762   ave_hess =     0.039139113
+ iind,jjnd = 20,2  hess[ii,jj] =    -0.016862580   hess[jj,ii] =    -0.016862293   ave_hess =    -0.016862437
+ iind,jjnd = 20,3  hess[ii,jj] =     0.000758210   hess[jj,ii] =     0.000758216   ave_hess =     0.000758213
+ iind,jjnd = 20,4  hess[ii,jj] =     0.000196214   hess[jj,ii] =     0.000196222   ave_hess =     0.000196218
+ iind,jjnd = 20,5  hess[ii,jj] =     0.001783367   hess[jj,ii] =     0.001783345   ave_hess =     0.001783356
+ iind,jjnd = 20,6  hess[ii,jj] =     0.001729220   hess[jj,ii] =     0.001729162   ave_hess =     0.001729191
+ iind,jjnd = 20,7  hess[ii,jj] =    -0.001053202   hess[jj,ii] =    -0.001053222   ave_hess =    -0.001053212
+ iind,jjnd = 20,8  hess[ii,jj] =    -0.008953327   hess[jj,ii] =    -0.008953312   ave_hess =    -0.008953320
+ iind,jjnd = 20,9  hess[ii,jj] =    -0.000584510   hess[jj,ii] =    -0.000584515   ave_hess =    -0.000584512
+ iind,jjnd = 20,10  hess[ii,jj] =    -0.000687092   hess[jj,ii] =    -0.000687112   ave_hess =    -0.000687102
+ iind,jjnd = 20,11  hess[ii,jj] =     0.001409826   hess[jj,ii] =     0.001409815   ave_hess =     0.001409821
+ iind,jjnd = 20,12  hess[ii,jj] =    -0.076196842   hess[jj,ii] =    -0.076197252   ave_hess =    -0.076197047
+ iind,jjnd = 20,13  hess[ii,jj] =     0.124756227   hess[jj,ii] =     0.124790656   ave_hess =     0.124773442
+ iind,jjnd = 20,14  hess[ii,jj] =    -0.135577762   hess[jj,ii] =    -0.135575689   ave_hess =    -0.135576726
+ iind,jjnd = 20,15  hess[ii,jj] =     0.009557793   hess[jj,ii] =     0.009557659   ave_hess =     0.009557726
+ iind,jjnd = 20,16  hess[ii,jj] =    -0.017349244   hess[jj,ii] =    -0.017349748   ave_hess =    -0.017349496
+ iind,jjnd = 20,17  hess[ii,jj] =     0.009321961   hess[jj,ii] =     0.009321961   ave_hess =     0.009321961
+ iind,jjnd = 20,18  hess[ii,jj] =     0.086132631   hess[jj,ii] =     0.086132131   ave_hess =     0.086132381
+ iind,jjnd = 20,19  hess[ii,jj] =    -0.145002368   hess[jj,ii] =    -0.145034173   ave_hess =    -0.145018271
+
+++++ (0) Traditional atomic mass weighted freq calc using numerical diff ehess ++++
+
+
+====++++ Entered hess_setup_anal routine for molecule: CH3NH2 ++++
+initially hess_type = ehess  and inv_hess = False
+++++initially ehess_type = cart ++++ mhess_type = atmwt ++++
+++++ ehess_type = cart ++++ mhess_type = atmwt ++++
+++++Final ehess_type = cart ++++ mhess_type = atmwt ++++
+get_unproj_freq = True  get_proj_freq = True  do_invert = False
+On entry inv_hess = False and on exit inv_hess_out = False
+Forming mass weighted hessian for molecule: CH3NH2
+
+
+========================Start of gen_mwt_trans_rots============================
+
+
+Initial center of mass for molecule = [-1.730129e-01 -3.782136e-14  1.171970e+00]
+Mol coordinates (xyz_array) now centered about origin:
+ [[ 1.393021e-01 -5.915642e-15 -1.381478e+00]
+ [ 2.112870e+00  2.892833e-13 -1.980360e+00]
+ [-7.639611e-01  1.650818e+00 -2.193174e+00]
+ [-7.639611e-01 -1.650818e+00 -2.193174e+00]
+ [-2.410653e-01 -1.549823e-14  1.335795e+00]
+ [ 5.529257e-01  1.520944e+00  2.127862e+00]
+ [ 5.529257e-01 -1.520944e+00  2.127862e+00]]
+
+========= Start forming mass weighted rotational vectors =======
+rotv norms =  [8.989895 8.831808 4.182607]
+====moments tensor from rotational disp vectors:
+ [[8.081822e+01 6.141086e-14 5.286750e+00]
+ [6.141086e-14 7.800084e+01 5.562923e-14]
+ [5.286750e+00 5.562923e-14 1.749420e+01]]
+
+===== eval and evec for momenti_tensor
+eval[0] =    17.055860  evec[:,0] [ 8.262980e-02  8.166409e-16 -9.965803e-01]
+eval[1] =    78.000840  evec[:,1] [ 2.016245e-14 -1.000000e+00  8.881784e-16]
+eval[2] =    81.256563  evec[:,2] [9.965803e-01 2.016093e-14 8.262980e-02]
+
+Check that trans modes orthog to rotations:
+ [[-1.387779e-17 -4.857226e-17 -4.336809e-19]
+ [-8.326673e-17 -2.366583e-30 -6.245005e-17]
+ [-2.602085e-18  2.775558e-17 -6.938894e-18]]
+Combined trans and rots vectors shape =  (21, 6)
+
+
+========================End of gen_mwt_trans_rots============================
+
+
+mhess_type = 'atmwt' - using standard atomic masses
+
+++umass_set: molecular weight 31.0421992 and geometric mean of atomic masses = 2.09089828
+For trad masses - mass_scl = 1
+umass**one gmean = 2.0908982787 products = 5.333238514e+06 atom sum = 31.0421991656  umass[::3] ->
+ [12.        1.007825  1.007825  1.007825 14.003074  1.007825  1.007825]
+umass**half gmean 1.445993872274 prod =  2.30938e+03  atom sum = 12.2256942206 umass5 ->
+ [3.464102 1.003905 1.003905 1.003905 3.742068 1.003905 1.003905]
+umass**-half gmean 0.691565862881  prod =  4.33017e-04  atom sum = 5.5364585241 umassm5 ->
+ [0.288675 0.99611  0.99611  0.99611  0.267232 0.99611  0.99611 ]
+A REPEAT: hess_type = ehess - ehess_type = cart - mhess_type = atmwt 
+inv_hess = False - EVENTUALLY DEL 2 PRINTS
+ A hessian has been passed to hess_setup_anal routine
+hess.shape =  (21, 21)
+READY TO Mass wt hessian: ehess_type = cart  mhess_type = atmwt
+
+================ Start of forming mass weighted hessian =============
+=== mass_type = atmwt   mass_detscl =    1.00000    inv_hess = False
+
+==== mass.shape =  (3, 21)
+traditional freq calc on molecule CH3NH2 with molar mass  31.0421992
+Forming mass weighted hess
+
+==== Finished mwt hess -- ehess_type = cart ===
+
+ Trace of v_hes_v =  -3.49360827435013e-05
+Abs trace of v_hess_v =  4.1246545411903295e-05
+au2amu 0.000549 inv(au2amu) 1822.888484 -- radpsec2waveno 162.556453
+projecting hess - divide vhv_eval by mass_unit = 0.001000000
+
+v_hess_v evals and evecs: sum = 4.1248420333e-02
+vhv_eval[0] = -0.037595 freq =   -31.519 1/cm  abs_sort max->  [3 5 1 2 4 0]
+vhv_eval[1] = -0.000496 freq =    -3.620 1/cm  abs_sort max->  [5 3 1 2 0 4]
+vhv_eval[2] = -0.000001 freq =    -0.150 1/cm  abs_sort max->  [2 0 4 1 5 3]
+vhv_eval[3] = 0.000000 freq =     0.002 1/cm  abs_sort max->  [0 2 1 5 4 3]
+vhv_eval[4] = 0.000000 freq =     0.047 1/cm  abs_sort max->  [1 5 0 3 2 4]
+vhv_eval[5] = 0.003156 freq =     9.132 1/cm  abs_sort max->  [4 2 0 1 5 3]
+Test_mwthess_projd trace not below 1.00000e-10  - need to project out mwthess Trans/Rots modes
+Unproj hessian vibrational modes are pure = False
+======= Calc unproj frequencies =======
+======== Start of computing vibrational freq from mass weighted hess ========
+============== Trace of hess in freq calc =   2.94697813e+00 =============
+
+ mass_unit = detscl/1000. =     0.001000  detscl =     1.000000
+===== Freq in 1/cm
+  0    -31.6     1     -3.6     2     -0.2     3     -0.0     4      0.0     5      9.1   
+  6    334.4     7    918.7     8   1044.3     9   1147.0    10   1276.6    11   1465.0   
+ 12   1593.6    13   1630.8    14   1648.0    15   1808.3    16   3134.8    17   3222.2   
+ 18   3258.6    19   3746.3    20   3832.4   
+^^^^^^^^ going to compute reduced mass here ^^^^^^^^
+========= print out straight freq and their inverse here
+============ End of diagonalizing mass weighted Hess ===================
+
+Translational components of normal modes
+Tots   1.000000   1.000000   1.000000  Tot   3.000000
+
+Rotational components in normal modes
+Tots   1.000000   1.000000   1.000000  Tot   3.000000
+
+====== Summary of trans and rot components in vibrations ======
+Comp    trans     rot              Total          Freq
+   0    0.000001    0.999977  Tot    0.999978       -31.559
+   1    0.000104    0.999896  Tot    1.000000        -3.639
+   2    0.999729    0.000271  Tot    1.000000        -0.150
+   3    1.000000    0.000000  Tot    1.000000        -0.009
+   4    0.999896    0.000104  Tot    1.000000         0.034
+   5    0.000271    0.999729  Tot    1.000000         9.129
+   6    0.000000    0.000022  Tot    0.000022       334.410
+===== ==========================================
+Total   3.000000    3.000000  Tot    6.000000
+Finished calc unproj freq and tran_rot_vibcomp comp_code = 0
+
+=== Now work on projecting Hessian ===
+=== get_proj_freq = True  do_invert = False 
++++Start of projection: get_proj_freq = True  do_invert = False 
+Before if: zero_tran_rot_vcomp = False
+In if block - doing projection
+
+
+===== Projecting trans/rots modes out of mass weighted hess =====
+Len of normal mode vector = 21    no tran rot vecs = 6
+
+ ===== Finished projecting the trans/rot modes out of mwt hess matrix
+======== Start of computing vibrational freq from mass weighted hess ========
+============== Trace of hess in freq calc =   2.94701306e+00 =============
+
+ mass_unit = detscl/1000. =     0.001000  detscl =     1.000000
+===== Freq in 1/cm
+  0     -0.0     1     -0.0     2     -0.0     3      0.0     4      0.0     5      0.0   
+  6    334.4     7    918.7     8   1044.3     9   1147.0    10   1276.6    11   1465.0   
+ 12   1593.6    13   1630.8    14   1648.0    15   1808.3    16   3134.8    17   3222.2   
+ 18   3258.6    19   3746.3    20   3832.4   
+^^^^^^^^ going to compute reduced mass here ^^^^^^^^
+========= print out straight freq and their inverse here
+============ End of diagonalizing mass weighted Hess ===================
+
+Translational components of normal modes
+Tots   1.000000   1.000000   1.000000  Tot   3.000000
+
+Rotational components in normal modes
+Tots   1.000000   1.000000   1.000000  Tot   3.000000
+
+====== Summary of trans and rot components in vibrations ======
+Comp    trans     rot              Total          Freq
+   0    0.504691    0.495309  Tot    1.000000        -0.000
+   1    0.476706    0.523294  Tot    1.000000        -0.000
+   2    0.282436    0.717564  Tot    1.000000        -0.000
+   3    0.516024    0.483976  Tot    1.000000         0.000
+   4    0.675046    0.324954  Tot    1.000000         0.000
+   5    0.545098    0.454902  Tot    1.000000         0.000
+===== ==========================================
+Total   3.000000    3.000000  Tot    6.000000
+
+=========== Vibrational normal modes ============
+
+  dvec = orthog mass wt    cvec = cartesian disps
+  imode = 0   freq =   -0.0000
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.000  -0.024  -0.365   0.134      0.000  -0.007  -0.105   0.039    0.464
+  1   -0.031   0.169  -0.208   0.073     -0.031   0.168  -0.207   0.072    0.073
+  2   -0.211  -0.135  -0.131   0.080     -0.210  -0.134  -0.131   0.080    0.080
+  3    0.127  -0.135   0.013   0.034      0.126  -0.134   0.013   0.034    0.035
+  4    0.524   0.273  -0.321   0.452      0.140   0.073  -0.086   0.121    1.692
+  5    0.026   0.189  -0.194   0.074      0.026   0.188  -0.193   0.074    0.074
+  6    0.337   0.189  -0.061   0.153      0.336   0.188  -0.060   0.152    0.154
+ Totals:    TotD =   1.000     TotC =   0.572    Tot_mtc =   2.571
+  imode = 1   freq =   -0.0000
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.279  -0.742   0.108   0.640     -0.081  -0.214   0.031   0.185    2.216
+  1   -0.095  -0.234  -0.014   0.064     -0.094  -0.233  -0.013   0.063    0.064
+  2   -0.123  -0.291  -0.077   0.106     -0.123  -0.290  -0.077   0.106    0.106
+  3   -0.076  -0.291   0.181   0.123     -0.075  -0.290   0.180   0.123    0.124
+  4   -0.072  -0.028   0.149   0.028     -0.019  -0.008   0.040   0.008    0.105
+  5   -0.023   0.066  -0.097   0.014     -0.023   0.065  -0.097   0.014    0.014
+  6    0.021   0.066   0.141   0.025      0.020   0.065   0.140   0.025    0.025
+ Totals:    TotD =   1.000     TotC =   0.523    Tot_mtc =   2.655
+  imode = 2   freq =   -0.0000
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.000   0.168   0.324   0.133      0.000   0.049   0.094   0.039    0.462
+  1    0.005   0.449   0.110   0.213      0.005   0.447   0.109   0.213    0.214
+  2   -0.328  -0.134   0.086   0.133     -0.327  -0.134   0.086   0.133    0.134
+  3    0.341  -0.134   0.087   0.142      0.340  -0.134   0.087   0.141    0.143
+  4   -0.082  -0.104   0.339   0.132     -0.022  -0.028   0.090   0.035    0.495
+  5   -0.337   0.133   0.097   0.140     -0.335   0.133   0.097   0.140    0.141
+  6    0.280   0.133   0.098   0.106      0.279   0.133   0.097   0.105    0.106
+ Totals:    TotD =   1.000     TotC =   0.805    Tot_mtc =   1.694
+  imode = 3   freq =    0.0000
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.000  -0.027   0.208   0.044      0.000  -0.008   0.060   0.013    0.152
+  1   -0.040  -0.056  -0.070   0.010     -0.039  -0.056  -0.070   0.010    0.010
+  2    0.008   0.060   0.189   0.039      0.008   0.059   0.188   0.039    0.039
+  3   -0.115   0.060   0.051   0.019     -0.114   0.059   0.051   0.019    0.019
+  4    0.669  -0.398   0.318   0.707      0.179  -0.106   0.085   0.189    2.645
+  5    0.288  -0.169   0.096   0.121      0.287  -0.169   0.096   0.121    0.121
+  6    0.175  -0.169  -0.030   0.060      0.174  -0.169  -0.030   0.060    0.061
+ Totals:    TotD =   1.000     TotC =   0.450    Tot_mtc =   3.047
+  imode = 4   freq =    0.0000
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.000  -0.144  -0.301   0.111      0.000  -0.041  -0.087   0.032    0.385
+  1    0.009   0.134  -0.057   0.021      0.009   0.134  -0.056   0.021    0.021
+  2   -0.111  -0.072  -0.024   0.018     -0.111  -0.072  -0.024   0.018    0.018
+  3    0.136  -0.072  -0.178   0.055      0.136  -0.072  -0.177   0.055    0.055
+  4   -0.156  -0.731  -0.347   0.679     -0.042  -0.195  -0.093   0.182    2.542
+  5   -0.168  -0.173  -0.010   0.058     -0.168  -0.173  -0.010   0.058    0.059
+  6    0.060  -0.173  -0.151   0.057      0.060  -0.173  -0.151   0.056    0.057
+ Totals:    TotD =   1.000     TotC =   0.422    Tot_mtc =   3.137
+  imode = 5   freq =    0.0000
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.776  -0.267   0.077   0.679      0.224  -0.077   0.022   0.196    2.353
+  1    0.268  -0.084   0.163   0.105      0.266  -0.084   0.162   0.105    0.106
+  2    0.274  -0.105  -0.088   0.094      0.273  -0.104  -0.088   0.094    0.094
+  3    0.291  -0.105   0.005   0.096      0.290  -0.104   0.005   0.095    0.096
+  4    0.117  -0.010  -0.018   0.014      0.031  -0.003  -0.005   0.004    0.053
+  5   -0.033   0.024   0.009   0.002     -0.033   0.024   0.009   0.002    0.002
+  6   -0.017   0.024   0.095   0.010     -0.017   0.024   0.094   0.010    0.010
+ Totals:    TotD =   1.000     TotC =   0.505    Tot_mtc =   2.714
+  imode = 6   freq =  334.4066
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.000   0.009   0.000   0.000     -0.000   0.003   0.000   0.000    0.000
+  1    0.000   0.306   0.000   0.094      0.000   0.305   0.000   0.093    0.094
+  2   -0.290  -0.198  -0.089   0.131     -0.289  -0.197  -0.088   0.131    0.132
+  3    0.290  -0.198   0.089   0.131      0.289  -0.197   0.088   0.131    0.132
+  4   -0.000   0.149  -0.000   0.022     -0.000   0.040  -0.000   0.006    0.084
+  5    0.494  -0.250   0.063   0.310      0.492  -0.249   0.062   0.309    0.312
+  6   -0.494  -0.250  -0.063   0.310     -0.492  -0.249  -0.062   0.309    0.312
+ Totals:    TotD =   1.000     TotC =   0.980    Tot_mtc =   1.065
+  imode = 7   freq =  918.6801
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.045   0.000  -0.062   0.006     -0.013   0.000  -0.018   0.002    0.020
+  1    0.067  -0.000   0.262   0.073      0.067  -0.000   0.261   0.073    0.074
+  2    0.116   0.017  -0.121   0.028      0.116   0.017  -0.120   0.028    0.029
+  3    0.116  -0.017  -0.121   0.028      0.116  -0.017  -0.120   0.028    0.029
+  4   -0.313  -0.000   0.212   0.143     -0.084  -0.000   0.057   0.038    0.536
+  5    0.512  -0.095  -0.299   0.360      0.510  -0.094  -0.298   0.359    0.362
+  6    0.512   0.095  -0.299   0.360      0.510   0.094  -0.298   0.359    0.362
+ Totals:    TotD =   1.000     TotC =   0.887    Tot_mtc =   1.411
+  imode = 8   freq = 1044.3058
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.000  -0.197   0.000   0.039     -0.000  -0.057   0.000   0.011    0.134
+  1    0.000   0.252   0.000   0.064      0.000   0.251   0.000   0.063    0.064
+  2   -0.036   0.147   0.446   0.222     -0.036   0.147   0.444   0.221    0.223
+  3    0.036   0.147  -0.446   0.222      0.036   0.147  -0.444   0.221    0.223
+  4   -0.000  -0.033   0.000   0.001     -0.000  -0.009   0.000   0.000    0.004
+  5    0.166   0.129  -0.427   0.226      0.165   0.128  -0.425   0.226    0.227
+  6   -0.166   0.129   0.427   0.226     -0.165   0.128   0.425   0.226    0.227
+ Totals:    TotD =   1.000     TotC =   0.968    Tot_mtc =   1.102
+  imode = 9   freq = 1147.0041
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.129  -0.000  -0.630   0.413      0.037  -0.000  -0.182   0.119    1.431
+  1   -0.003   0.000  -0.285   0.081     -0.003   0.000  -0.284   0.081    0.082
+  2   -0.026  -0.007  -0.126   0.016     -0.026  -0.007  -0.125   0.016    0.017
+  3   -0.026   0.007  -0.126   0.016     -0.026   0.007  -0.125   0.016    0.017
+  4   -0.091   0.000   0.622   0.395     -0.024   0.000   0.166   0.105    1.477
+  5   -0.026  -0.005   0.196   0.039     -0.026  -0.005   0.195   0.039    0.039
+  6   -0.026   0.005   0.196   0.039     -0.026   0.005   0.195   0.039    0.039
+ Totals:    TotD =   1.000     TotC =   0.416    Tot_mtc =   3.101
+  imode = 10   freq = 1276.5702
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.406  -0.000   0.119   0.179      0.117  -0.000   0.034   0.052    0.620
+  1   -0.059   0.000  -0.551   0.307     -0.059   0.000  -0.548   0.305    0.308
+  2   -0.246  -0.061   0.319   0.166     -0.245  -0.061   0.318   0.165    0.167
+  3   -0.246   0.061   0.319   0.166     -0.245   0.061   0.318   0.165    0.167
+  4   -0.313  -0.000  -0.085   0.105     -0.084  -0.000  -0.023   0.028    0.393
+  5    0.159  -0.072  -0.090   0.039      0.158  -0.072  -0.090   0.039    0.039
+  6    0.159   0.072  -0.090   0.039      0.158   0.072  -0.090   0.039    0.039
+ Totals:    TotD =   1.000     TotC =   0.793    Tot_mtc =   1.732
+  imode = 11   freq = 1465.0462
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.000  -0.410   0.000   0.168      0.000  -0.118   0.000   0.049    0.583
+  1    0.000   0.241   0.000   0.058      0.000   0.240   0.000   0.058    0.058
+  2    0.046   0.066   0.329   0.114      0.046   0.066   0.327   0.114    0.115
+  3   -0.046   0.066  -0.329   0.114     -0.046   0.066  -0.327   0.114    0.115
+  4   -0.000   0.327  -0.000   0.107     -0.000   0.087  -0.000   0.029    0.401
+  5   -0.109  -0.089   0.446   0.219     -0.109  -0.088   0.444   0.218    0.219
+  6    0.109  -0.089  -0.446   0.219      0.109  -0.088  -0.444   0.218    0.219
+ Totals:    TotD =   1.000     TotC =   0.799    Tot_mtc =   1.712
+  imode = 12   freq = 1593.6492
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.045  -0.000   0.389   0.154      0.013  -0.000   0.112   0.044    0.533
+  1   -0.120   0.000  -0.367   0.149     -0.120   0.000  -0.366   0.149    0.150
+  2   -0.020  -0.303  -0.504   0.346     -0.020  -0.302  -0.502   0.344    0.347
+  3   -0.020   0.303  -0.504   0.346     -0.020   0.302  -0.502   0.344    0.347
+  4    0.002  -0.000   0.030   0.001      0.001  -0.000   0.008   0.000    0.003
+  5   -0.003   0.023  -0.041   0.002     -0.002   0.023  -0.041   0.002    0.002
+  6   -0.003  -0.023  -0.041   0.002     -0.002  -0.023  -0.041   0.002    0.002
+ Totals:    TotD =   1.000     TotC =   0.887    Tot_mtc =   1.385
+  imode = 13   freq = 1630.8264
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.186  -0.000   0.124   0.050     -0.054  -0.000   0.036   0.014    0.174
+  1   -0.177   0.000  -0.505   0.287     -0.176   0.000  -0.503   0.286    0.288
+  2    0.489   0.298   0.048   0.330      0.487   0.296   0.048   0.329    0.331
+  3    0.489  -0.298   0.048   0.330      0.487  -0.296   0.048   0.329    0.331
+  4   -0.045  -0.000   0.005   0.002     -0.012  -0.000   0.001   0.001    0.008
+  5    0.005   0.003  -0.020   0.000      0.005   0.003  -0.020   0.000    0.000
+  6    0.005  -0.003  -0.020   0.000      0.005  -0.003  -0.020   0.000    0.000
+ Totals:    TotD =   1.000     TotC =   0.959    Tot_mtc =   1.133
+  imode = 14   freq = 1648.0395
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.000   0.160   0.000   0.026     -0.000   0.046   0.000   0.007    0.088
+  1   -0.000  -0.687  -0.000   0.471     -0.000  -0.684  -0.000   0.470    0.473
+  2   -0.398  -0.054   0.288   0.245     -0.397  -0.054   0.287   0.244    0.246
+  3    0.398  -0.054  -0.288   0.245      0.397  -0.054  -0.287   0.244    0.246
+  4   -0.000   0.069  -0.000   0.005     -0.000   0.018  -0.000   0.001    0.018
+  5   -0.015  -0.006   0.066   0.005     -0.015  -0.006   0.065   0.005    0.005
+  6    0.015  -0.006  -0.066   0.005      0.015  -0.006  -0.065   0.005    0.005
+ Totals:    TotD =   1.000     TotC =   0.975    Tot_mtc =   1.080
+  imode = 15   freq = 1808.3156
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.071  -0.000   0.033   0.006     -0.021  -0.000   0.009   0.002    0.021
+  1   -0.021   0.000   0.024   0.001     -0.021   0.000   0.023   0.001    0.001
+  2    0.022  -0.012  -0.058   0.004      0.022  -0.012  -0.058   0.004    0.004
+  3    0.022   0.012  -0.058   0.004      0.022   0.012  -0.058   0.004    0.004
+  4   -0.063   0.000  -0.271   0.077     -0.017   0.000  -0.072   0.021    0.290
+  5    0.229  -0.395   0.495   0.454      0.228  -0.393   0.493   0.452    0.455
+  6    0.229   0.395   0.495   0.454      0.228   0.393   0.493   0.452    0.455
+ Totals:    TotD =   1.000     TotC =   0.935    Tot_mtc =   1.231
+  imode = 16   freq = 3134.7542
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.192  -0.000  -0.112   0.049      0.055  -0.000  -0.032   0.014    0.171
+  1   -0.889  -0.000   0.244   0.849     -0.885  -0.000   0.243   0.846    0.852
+  2    0.114  -0.175   0.083   0.051      0.114  -0.174   0.083   0.050    0.051
+  3    0.114   0.175   0.083   0.051      0.114   0.174   0.083   0.050    0.051
+  4    0.000   0.000  -0.005   0.000      0.000   0.000  -0.001   0.000    0.000
+  5   -0.002   0.007  -0.002   0.000     -0.002   0.007  -0.002   0.000    0.000
+  6   -0.002  -0.007  -0.002   0.000     -0.002  -0.007  -0.002   0.000    0.000
+ Totals:    TotD =   1.000     TotC =   0.961    Tot_mtc =   1.126
+  imode = 17   freq = 3222.2038
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.241   0.000  -0.123   0.073     -0.069   0.000  -0.035   0.021    0.253
+  1    0.270   0.000  -0.079   0.079      0.269   0.000  -0.078   0.079    0.080
+  2    0.278  -0.534   0.248   0.424      0.277  -0.531   0.247   0.422    0.425
+  3    0.278   0.534   0.248   0.424      0.277   0.531   0.247   0.422    0.425
+  4    0.004  -0.000   0.004   0.000      0.001  -0.000   0.001   0.000    0.000
+  5   -0.005  -0.007  -0.004   0.000     -0.005  -0.007  -0.004   0.000    0.000
+  6   -0.005   0.007  -0.004   0.000     -0.005   0.007  -0.004   0.000    0.000
+ Totals:    TotD =   1.000     TotC =   0.944    Tot_mtc =   1.184
+  imode = 18   freq = 3258.5978
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0    0.000   0.309   0.000   0.096      0.000   0.089   0.000   0.028    0.331
+  1   -0.000   0.019   0.000   0.000     -0.000   0.019   0.000   0.000    0.000
+  2    0.306  -0.539   0.260   0.452      0.305  -0.537   0.259   0.450    0.454
+  3   -0.306  -0.539  -0.260   0.452     -0.305  -0.537  -0.259   0.450    0.454
+  4   -0.000  -0.008  -0.000   0.000     -0.000  -0.002  -0.000   0.000    0.000
+  5    0.008   0.012   0.001   0.000      0.008   0.012   0.001   0.000    0.000
+  6   -0.008   0.012  -0.001   0.000     -0.008   0.012  -0.001   0.000    0.000
+ Totals:    TotD =   1.000     TotC =   0.928    Tot_mtc =   1.239
+  imode = 19   freq = 3746.3416
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.011  -0.000   0.006   0.000     -0.003  -0.000   0.002   0.000    0.001
+  1    0.008  -0.000   0.001   0.000      0.008  -0.000   0.001   0.000    0.000
+  2    0.004  -0.007   0.001   0.000      0.004  -0.007   0.001   0.000    0.000
+  3    0.004   0.007   0.001   0.000      0.004   0.007   0.001   0.000    0.000
+  4   -0.135  -0.000  -0.158   0.043     -0.036  -0.000  -0.042   0.012    0.162
+  5    0.262   0.574   0.283   0.478      0.261   0.571   0.282   0.476    0.480
+  6    0.262  -0.574   0.283   0.478      0.261  -0.571   0.282   0.476    0.480
+ Totals:    TotD =   1.000     TotC =   0.964    Tot_mtc =   1.123
+  imode = 20   freq = 3832.4260
+atom      dx      dy      dz      Td       cx      cy      cz      Tc     m * Tc
+  0   -0.000  -0.007  -0.000   0.000     -0.000  -0.002  -0.000   0.000    0.000
+  1   -0.000   0.000   0.000   0.000     -0.000   0.000   0.000   0.000    0.000
+  2   -0.005   0.011  -0.006   0.000     -0.005   0.011  -0.006   0.000    0.000
+  3    0.005   0.011   0.006   0.000      0.005   0.011   0.006   0.000    0.000
+  4    0.000  -0.292   0.000   0.085      0.000  -0.078   0.000   0.023    0.318
+  5    0.283   0.544   0.285   0.457      0.282   0.542   0.284   0.455    0.459
+  6   -0.283   0.544  -0.285   0.457     -0.282   0.542  -0.284   0.455    0.459
+ Totals:    TotD =   1.000     TotC =   0.934    Tot_mtc =   1.237
+ret_freq_type = proj_freq when returning projected hess matrix - NO freq or evec returned
+numerical frequencies - ret_freq_type = proj_freq
+ [-2.696501e-05 -2.586111e-05 -1.711041e-05  1.622788e-05  1.647024e-05  2.146822e-05  3.344066e+02  9.186801e+02
+  1.044306e+03  1.147004e+03  1.276570e+03  1.465046e+03  1.593649e+03  1.630826e+03  1.648040e+03  1.808316e+03
+  3.134754e+03  3.222204e+03  3.258598e+03  3.746342e+03  3.832426e+03]
+
+      ======= End of (0) CH3NH2 frequencies from psi4 hess wavefn========
+
+
+
+++++++++++++++++++++++ Molecular data for CH3NH2 ++++++++++++++++++++++
+====================================================================
+
+num_at in CH3NH2 molecule = 7   mol_geom.shape =  (7, 3)
+
+=========================================================
+  CH3NH2  --- Units = Angstrom
+            x            y             z       mass
+  0  C   -0.0337108   -0.0000000   -0.2095083   12.0000000
+  1  H    1.9398567    0.0000000   -0.8083902    1.0078250
+  2  H   -0.9369740    1.6508178   -1.0212039    1.0078250
+  3  H   -0.9369740   -1.6508178   -1.0212039    1.0078250
+  4  N   -0.4140782   -0.0000000    2.5077653   14.0030740
+  5  H    0.3799128    1.5209438    3.2998322    1.0078250
+  6  H    0.3799128   -1.5209438    3.2998322    1.0078250
+
+=========================================================
+
++++++++ Finished test of jdh_build_num_hess +++++++
+

@@ -4,6 +4,7 @@ import numpy as np
 #import prnt_hess as ph
 import hess_freq as hsf
 import hess_setup_anal as hsa
+import wrt_rd_dict_to_json as sav_psi4opt
 import os
 
 ################################################################
@@ -139,10 +140,11 @@ def hess_en_gr_fun(coords, *args):
 ####################### end hess_en_gr_fun #################################
 
 
-def jdh_build_num_hess(mol_nm,run_type_op):
+def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     """  function to build jdh numerical hessian
     :parameter mol_nm: molecule name
     :parameter run_type_op: dictionary with the parameters for hessian build types
+    :parameter jopts: dictionary with the psi4 options for the energy/grad calcs
 
     remember psi4 options are read from the numpy.json file
     """
@@ -229,10 +231,31 @@ def jdh_build_num_hess(mol_nm,run_type_op):
         # try printing out some options
         print("List of options -->\n",psi4.core.get_options())
 
-        psi4.core.get_options()
+        # psi4.core.get_options()
+
+        ########################### BLOCK NOT NEEDED?? #########################
+        # psi4.core.print_out("\n### start of comparing psi4 global options with jdh options")
+        # # compare local options in jopts with psi4 global options
+        # # goal of jopts dictionary is to same psi4 options when building john's num hessian
+        # # print("set {", file=f_init_geom)
+        # for key in jopts.keys():
+        #     # print(f"  {key} {jopts[key]}", file=f_init_geom)
+        #     # glob_op = core.get_global_option(key)
+        #     try:
+        #         g_opt = psi4.core.get_global_option(key)
+        #         psi4.core.print_out(f"# key: {key}  from global_opt {g_opt} reset to {jopts[key]}")
+        #     except RuntimeError as RTE:
+        #         psi4.core.print_out(f"jopts key {key} is not a global_opt")
+        #         psi4.core.print_out(f"ZDE error msg: {RTE}")
+        #     else:
+        #         psi4.core.print_out(f"IN ELSE: jopts key {key} is not a global_opt - skipping")
+        #     finally:
+        #         psi4.core.print_out(f"FINALLY done with key = {key}")
+        # # print("  }\n", file=f_init_geom)
+        # psi4.core.print_out("++++++  End of comparing psi4 global options with jdh options")
+        ########################## ABOVE BLOCK NOT NEEDED ######################################
 
         # get list of info available from wavefunction file
-
         print("\n======== type(file_wfn) --> ",type(file_wfn))
         print("dir(file_wfn) -->\n",dir(file_wfn))
 
@@ -243,15 +266,13 @@ def jdh_build_num_hess(mol_nm,run_type_op):
         print("\n======== type(file_wfn.molecule()) -> ",type(file_wfn.molecule))
         print("\n======== dir(file_wfn.molecule()) --> ",dir(file_wfn.molecule()))
 
-
-        # In[4]:
-
-
-
-
-        # print("file_mol geom = ",file_mol.geometry().np)
-
+        # check that mol_nm == mol_nm
         mol_name = file_mol.name()
+        if mol_nm == mol_name:
+            print(f"YEAH mol_nm = {mol_nm} matches with mol_name = {mol_name} in file_wfn ++++++")
+        else:
+            print(f"ERROR mol_nm = {mol_nm} NOT == mol_name = {mol_name} in file_wfn ++++++")
+            sys.exit()
         num_file_at = file_mol.natom()
         file_geom = np.asarray(file_mol.geometry())
         print("no_ats in %s molecule = %d   file_geom.shape = " % (
@@ -339,21 +360,50 @@ def jdh_build_num_hess(mol_nm,run_type_op):
         test_opts =['basis','reference','scf_type']
         ################ TODO: play with this???
         test_opts = [psi4.core.get_options()]
-        print("List options before reseting below -->",test_opts)
-        # for to in test_opts:
-        # print(f"Option --{to} =",psi4.core.get_option(to))
+        print("List psi4 options before reseting below -->\n",test_opts)
+        print("dir(test_opts): ",dir(test_opts))
 
-        # psi4.set_options({'basis': 'aug-cc-pvdz',
-        psi4.set_options({ 'basis': '6-31g**',
-                          'reference': 'rhf',
-                          'scf_type': 'direct',
-                          'e_convergence': 10,
-                          'd_convergence': 10,
-                          'ints_tolerance': 10})
+        print("End of psi4_options ============================")
 
-        #                  'print_mos': True})
+        # TODO: add jdh options here ------------------
+        # compare local options in jopts with psi4 global options
+        # goal of jopts dictionary is to same psi4 options when building john's num hessian
+        # print("set {", file=f_init_geom)
+        invalid_jopt_keys = ['formed_by_job', 'npy_file'] # add other keys which are NOT valid psi4 options
+        for key in invalid_jopt_keys:
+            #try:
+                psi4.core.print_out(f"\ndeleting jopts[{key}] = {jopts[key]} from jopts")
+                del jopts[key]
+            #except KeyError as k:
+            #    psi4.core.print_out("key {key} not in jopts ",k)
+        psi4.core.print_out(f"\njopts has been pruned: {jopts}")
+        psi4.core.print_out("\n### start of comparing psi4 global options with jdh options")
+        for key in jopts.keys():
+            # print(f"  {key} {jopts[key]}", file=f_init_geom)
+            # glob_op = core.get_global_option(key)
+            psi4.core.print_out(f"# key: {key}  from global_opt {psi4.core.get_global_option(key)} reset to {jopts[key]}")
+        # print("  }\n", file=f_init_geom)
+        psi4.core.print_out("++++++  End of comparing psi4 global options with jdh options")
 
-        # probably show check energy type and list options later??
+        # See what happens if we use the jopts dictionary to set the options???
+
+        psi4.set_options(jopts)
+
+        #
+        # # for to in test_opts:
+        # # print(f"Option --{to} =",psi4.core.get_option(to))
+        #
+        # # psi4.set_options({'basis': 'aug-cc-pvdz',
+        # psi4.set_options({ 'basis': '6-31g**',
+        #                   'reference': 'rhf',
+        #                   'scf_type': 'direct',
+        #                   'e_convergence': 10,
+        #                   'd_convergence': 10,
+        #                   'ints_tolerance': 10})
+        #
+        # #                  'print_mos': True})
+        #
+        # # probably show check energy type and list options later??
 
         # Get the SCF wavefunction & energies for H2O
         # scf_e0, scf_wfn = psi4.energy('scf', return_wfn=True)
@@ -667,31 +717,102 @@ def jdh_build_num_hess(mol_nm,run_type_op):
 ################################################################################
 
 if __name__ == "__main__":
+    import argparse
+    import os
     print("+-----------------------------------------------------------+")
     print("|     Start of main pgm to test build_num_hess_main.py      |")
-    mol_nm = "CH3NH2"
-    # set up coord_type - pick either "cart" or "masswt"
-    coord_type = "cart"
-    # coord_type = "masswt"
-    # set up coordinate displacement
-    coor_disp = 0.01
-    print("|          coord_type = %6s    disp = %7.3f     |" % 
-            (coord_type, coor_disp))
     print("+-----------------------------------------------------------+")
-    #
 
-    # TODO: set up run_type_op dictionary with parameters to build_num_hess
-    run_type_op = {'mol_nm':mol_nm,      # molecule name
-                   'mol_geom':'equil',   # options 'equil' or 'init_pt'
-                   'disp':coor_disp,     # num disp for numerical differentiation
-                   'coord_type':coord_type,  # units for molecule's coord in dat file - "cart" or "mwt"
-                   'coord_unit':'angstrom',   # units for molecule's coord in dat file - 'angstrom' or 'bohr'
-                   'npy_file':f"{mol_nm}_opt_wfn"    # files with wfn data and psi4 parameters -
-                                                     # augment fnames with ".npy' or ".json"
-                   }
+    # set up starting program
+    
+    parser = argparse.ArgumentParser(
+            description="""
+                        Program to build num jdh_hessian matrices using either cart or mwt coordinates
+                        1) Use setup_psi4_npy_file to created appropriate wavefn.npy file for some molecule
+                        2) Program checks for existence of wavefn.npy and wavefn.json files
+                        3) The psi4 wavefn files can be generated at the molecule's 
+                           starting or optimized equil geometry
+                        """)
+    parser.add_argument('-g','--geom',default='equil',
+                        help = 'geom used to build hessian - options "equil" or "init_pt"')
+    parser.add_argument('-d','--disp',default= 0.01,
+                            help = 'num displacement in the finite differentiation')
+    parser.add_argument('-c','--coord',default='cart',
+                        help='coordinate type used to form hessian - options "cart" or "mwt"')
+    parser.add_argument('-u','--coord_unit',default='bohr',
+                        help='coords units - options "bohr" or "angstrom"')
+    parser.add_argument('npy_file',help='Name of wavefn file - leave off .npy and .json - NEEDED')
+    args = parser.parse_args()
+
+    print("type for args: ",type(args))
+
+    print("args",args)
+
+    # get working directory and look for files with mol_name
+    work_dir = os.getcwd()
+
+    # check that npy_files npy_file.npy and npy_file.json exist
+
+    build_hess = args.npy_file[:-4] if args.npy_file[-4:] == '.npy' else args.npy_file
+    fjson = build_hess+'.json'
+    fnpy = build_hess +'.npy'
+    print(f"debug build_hess = {build_hess} fnpy = {fnpy} and fjson = {fjson}")
+
+    # read in jdh psi4 options dictionary from build_hess
+    # TODO: add test that fnpy and fjson exist
+
+    # TODO: add total energy and max force of current geometry to jopts
+    jopts = sav_psi4opt.json_wrt_rd_dict("read", build_hess, build_hess)
+
+    print("jopts dictionary - type = ",type(jopts)," -->: \n",jopts)
+
+
+    # gather argparse options for type of hessian build - save options in run_type_op
+    run_type_op ={}
+    # mol_nm = args.mol_name
+    # mol_nm = "CH3NH2"  # TODO: get mole name from wavefn or npy_file name
+    mol_nm = build_hess.split("_",1)[0]
+    print("molecule name = %s" % mol_nm)
+    # print out other parameters
+    mol_geom = args.geom
+    print("working with %s %s geometry" % (mol_geom,mol_nm))
+    disp = args.disp
+    coord_type = args.coord
+    coord_unit = args.coord_unit
+    print('build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
+
+    run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp,
+                   'coord_type': coord_type, 'coord_unit': coord_unit,
+                   'npy_file': build_hess}
+
+    print('arg_parse parameters converted to the run_type_op dictionary \n',run_type_op)
+
+
+
+
+    # mol_nm = "CH3NH2"
+    # # set up coord_type - pick either "cart" or "masswt"
+    # coord_type = "cart"
+    # # coord_type = "masswt"
+    # # set up coordinate displacement
+    # coor_disp = 0.01
+    # print("|          coord_type = %6s    disp = %7.3f     |" %
+    #         (coord_type, coor_disp))
+    # print("+-----------------------------------------------------------+")
+    # #
+    #
+    # # TODO: set up run_type_op dictionary with parameters to build_num_hess
+    # run_type_op = {'mol_nm':mol_nm,      # molecule name
+    #                'mol_geom':'equil',   # options 'equil' or 'init_pt'
+    #                'disp':coor_disp,     # num disp for numerical differentiation
+    #                'coord_type':coord_type,  # units for molecule's coord in dat file - "cart" or "mwt"
+    #                'coord_unit':'angstrom',   # units for molecule's coord in dat file - 'angstrom' or 'bohr'
+    #                'npy_file':f"{mol_nm}_opt_wfn"    # files with wfn data and psi4 parameters -
+    #                                                  # augment fnames with ".npy' or ".json"
+    #                }
 
     # call jdh_build
-    jdh_build_num_hess(mol_nm, run_type_op)
+    jdh_build_num_hess(mol_nm, run_type_op, jopts)
 
     # TODO: lots more cleaning up
     #
