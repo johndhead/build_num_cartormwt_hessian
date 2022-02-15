@@ -356,38 +356,61 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         # 6-31g basis takes a few steps to converge
         # psi4.set_options({'basis': '6-31g',
 
-        # check options before resetting them again
-        test_opts =['basis','reference','scf_type']
-        ################ TODO: play with this???
-        test_opts = [psi4.core.get_options()]
-        print("List psi4 options before reseting below -->\n",test_opts)
-        print("dir(test_opts): ",dir(test_opts))
+        # # check options before resetting them again
+        # test_opts =['basis','reference','scf_type']
+        # ################ TODO: play with this???
+        # test_opts = [psi4.core.get_options()]
+        # print("List psi4 options before reseting below -->\n",test_opts)
+        # print("dir(test_opts): ",dir(test_opts))
 
         print("End of psi4_options ============================")
 
-        # TODO: add jdh options here ------------------
-        # compare local options in jopts with psi4 global options
-        # goal of jopts dictionary is to same psi4 options when building john's num hessian
-        # print("set {", file=f_init_geom)
-        invalid_jopt_keys = ['formed_by_job', 'npy_file'] # add other keys which are NOT valid psi4 options
-        for key in invalid_jopt_keys:
-            #try:
-                psi4.core.print_out(f"\ndeleting jopts[{key}] = {jopts[key]} from jopts")
-                del jopts[key]
-            #except KeyError as k:
-            #    psi4.core.print_out("key {key} not in jopts ",k)
-        psi4.core.print_out(f"\njopts has been pruned: {jopts}")
+        # # TODO: add jdh options here ------------------
+        # # compare local options in jopts with psi4 global options
+        # # goal of jopts dictionary is to same psi4 options when building john's num hessian
+        # # print("set {", file=f_init_geom)
+        # invalid_jopt_keys = ['formed_by_job', 'npy_file'] # add other keys which are NOT valid psi4 options
+        # for key in invalid_jopt_keys:
+        #     #try:
+        #         psi4.core.print_out(f"\ndeleting jopts[{key}] = {jopts[key]} from jopts")
+        #         del jopts[key]
+        #     #except KeyError as k:
+        #     #    psi4.core.print_out("key {key} not in jopts ",k)
+        # psi4.core.print_out(f"\njopts has been pruned: {jopts}")
+
+        # find invalid psi4 keys in jopts dictionary and save them in a list: invalid_jopts_keys
+        invalid_jopts_keys = []
         psi4.core.print_out("\n### start of comparing psi4 global options with jdh options")
         for key in jopts.keys():
-            # print(f"  {key} {jopts[key]}", file=f_init_geom)
-            # glob_op = core.get_global_option(key)
-            psi4.core.print_out(f"# key: {key}  from global_opt {psi4.core.get_global_option(key)} reset to {jopts[key]}")
-        # print("  }\n", file=f_init_geom)
-        psi4.core.print_out("++++++  End of comparing psi4 global options with jdh options")
+            psi4.core.print_out(f"\n  {key} {jopts[key]}")
+            try:
+                glob_op = psi4.core.get_global_option(key)
+                if key == "geom_maxiter":
+                    local_scf_op = glob_op
+                    psi4.core.print_out("\nInvalid SCF local key skipped")
+                else:
+                    local_scf_op = psi4.core.get_local_option('SCF',key)
+                psi4.core.print_out(f"\njopts key = {key} - local_scf_op = {local_scf_op} - global_op = {glob_op}")
+                if glob_op != jopts[key]:
+                    psi4.core.print_out(f"\njopts['{key}'] != glop_op - resetting glob_op")
+                    psi4.core.set_global_option(key,jopts[key])
+                    new_glob_op = psi4.core.get_global_option(key)
+                    if key == "geom_maxiter":
+                        new_local_scf_op = new_glob_op
+                        psi4.core.print_out("\nInvalid SCF local key skipped")
+                    else:
+                        new_local_scf_op = psi4.core.get_local_option('SCF',key)
+                    psi4.core.print_out(f"\nNOW: local_scf_op = {new_local_scf_op} - global_op = {new_glob_op}")
+                # check for option change
+            except RuntimeError as kerr:
+                psi4.core.print_out(f"\n{kerr}: jopts key {key} not a valid key")
+                invalid_jopts_keys.append(key)
+
+        psi4.core.print_out("\n++++++  End of comparing psi4 global options with jdh options")
 
         # See what happens if we use the jopts dictionary to set the options???
 
-        psi4.set_options(jopts)
+        # psi4.set_options(jopts)
 
         #
         # # for to in test_opts:
@@ -504,6 +527,11 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     en_sum = open("en_opt_sum.txt","w")
     grad_sum = open("grad_opt_sum.txt","w")
 
+    print("\n++++ WFN Molecule name: %s   WFN Energy %28.20f \n" %
+          (file_wfn.molecule().name(),file_wfn.energy()), file=en_sum)
+    print("\n++++ WFN Molecule name: %s   WFN Energy %28.20f \n" %
+          (file_wfn.molecule().name(),file_wfn.energy()), file=grad_sum)
+
     # set up np arrays with energies, grad_vectors, disp_labels for ref_geom and 6*num_at displacements
     nrows = 6*num_at + 1
     en_array = np.zeros((nrows,2),dtype=float)
@@ -583,8 +611,8 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
                                     file=grad_sum)
                     #print("at %2d ic %d " % (iat,icor),del_grad,file=grad_sum)
 
-    en_sum.close()
-    grad_sum.close()
+    # en_sum.close()
+    # grad_sum.close()
 
     print("\n\n================== Finished doing all atom displacements "
           "==================")
@@ -597,30 +625,34 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     en_std = np.std(en_array[1:,0])
     gnorm_mean = 0.
     # print("sorted_en -->\n",sorted_en)
-    print("")
-    print("+-----------------------------------------------------------+")
-    print("|      Sorted energies for different atom displacements     |")
+    print("",file=en_sum)
+    print("+-----------------------------------------------------------+",file=en_sum)
+    print("|      Sorted energies for different atom displacements     |",file=en_sum)
     print("|          coord_type = %6s    disp = %7.3f     |" %
           (coord_type, coor_disp))
-    print("|     First record should be for the reference geom         |")
-    print("+-----------------------------------------------------------+\n")
+    print("|     First record should be for the reference geom         |",file=en_sum)
+    print("+-----------------------------------------------------------+\n",file=en_sum)
     sord = 0
     for sen in sorted_en:
         sord += 1
         gnorm = np.sqrt(np.dot(gr_array[sen,:],gr_array[sen,:]))
         if sen == 0:
-            print(" found ref molecule - skip adding grad norm to total gnorm")
-            print("sen = %d  and sord = %d" % (sen,sord))
+            print(" found ref molecule - skip adding grad norm to total gnorm",file=en_sum)
+            print("sen = %d  and sord = %d" % (sen,sord),file=en_sum)
         else:
             gnorm_mean += gnorm
         print("%2d at %2d xyz %d pm %2d     DE = %18.14f E = %20.14f  |grad| = %15.10f"
               % (sord,dis_label[sen,0],dis_label[sen,1],dis_label[sen,2],
-                                         en_array[sen,0],en_array[sen,1],gnorm))
+                                         en_array[sen,0],en_array[sen,1],gnorm),file=en_sum)
         # print("order = ",sord,dis_label[sen,0],dis_label[sen,1],dis_label[sen,2])
 
-    print("+-----------------------------------------------------------+")
+    print("+-----------------------------------------------------------+",file=en_sum)
     print("|  en_mean = %12.9f  en_std = %12.9f    gnorm_mean = %12.9f" %
-          (en_mean,en_std,gnorm_mean/(6*num_at)))
+          (en_mean,en_std,gnorm_mean/(6*num_at)),file=en_sum)
+
+    en_sum.close()
+    grad_sum.close()
+
 
     # print_hess to check it looks OK
     # ph.print_hess(fin_dif_2deriv,prnt=True)
