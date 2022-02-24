@@ -1,6 +1,6 @@
 #   set up main program to test optimizer code
 #   set up jdh_build_hess.py to calc a numerical hessian matrix using
-#   cart or mwt coordinates to do the atom displacements
+#   cart or masswt coordinates to do the atom displacements
 #
 #   This version started as a copy of the build_num_hess_main.py file from 11-Feb-2022
 #
@@ -10,9 +10,23 @@ import numpy as np
 import hess_freq as hsf
 import hess_setup_anal as hsa
 import wrt_rd_dict_to_json as sav_psi4opt
-import os
+import os, sys
 
 ################################################################
+# modify print commands so general print uses psi4.core.print_out()
+def pcprint(prt_txt,file=None):
+    """
+    modifies regular prints to psi4.core.print_out()
+    :param prt_txt: "text to be printed"
+    :param file: == None if no file - otherwise name of file to get output
+    :return: 
+    """
+    if file is None:
+        psi4.core.print_out(prt_txt)
+    else:
+        print(prt_txt,file=file)
+    # all done
+
 # set up energy_grad function
 def hess_en_gr_fun(coords, *args):
     """ hess_en_gr_fun - calcs energy and gradient for mol
@@ -222,18 +236,19 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         en_sum = open("en_sum_"+output_file+".txt","w")
         grad_sum = open("gr_sum_"+output_file+".txt","w")
 
-        print("\n++++ WFN Molecule name: %s   WFN Energy %28.20f \n" %
-            (file_wfn.molecule().name(),file_wfn.energy()), file=en_sum)
-        print("\n RUN_TYPE_OP: ",run_type_op,"\n",file=en_sum)
-        print("\n++++ WFN Molecule name: %s   WFN Energy %28.20f \n" %
+        pcprint("\n++++ WFN Molecule name: %s   WFN Energy %28.20f \n" %
+              (file_wfn.molecule().name(),file_wfn.energy()), file=en_sum)
+        pcprint("\n RUN_TYPE_OP:-->\n"+str(run_type_op)+"\n",file=en_sum)
+        #pcprint("\n RUN_TYPE_OP: ",run_type_op,"\n",file=en_sum)
+        pcprint("\n++++ WFN Molecule name: %s   WFN Energy %28.20f \n" %
               (file_wfn.molecule().name(),file_wfn.energy()), file=grad_sum)
-        print("\n RUN_TYPE_OP: ",run_type_op,"\n",file=grad_sum)
+        pcprint("\n RUN_TYPE_OP:-->\n"+str(run_type_op)+"\n",file=grad_sum)
         #######################################################################
 
         psi4.core.print_out("\n ============ Get initial molecule info using "
                             "%s.npy "
                             "data\n" % wfn_file_name)
-        psi4.core.print_out("Initial molecular geom obtained from %s.npy file"
+        psi4.core.print_out("Initial molecular geom obtained from %s.npy file\n"
                             % wfn_file_name)
 
         # get current module and print out options
@@ -242,44 +257,58 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         #curr_mod_name = psi4.core.Options.get_current_module()
         # --or--  ...get_current_module(file_wfn)
         # print("Options for curr_mod_name = %si -->" % curr_mod_name)
-        print("dir(psi4.core.Options) -->")
-        print(dir(psi4.core.Options))
-        print("dir(psi4.core.Wavefunction) -->")
-        print(dir(psi4.core.Wavefunction))
+        pcprint("dir(psi4.core.Options) -->\n")
+        pcprint(str(dir(psi4.core.Options))+"\n")
+        pcprint("dir(psi4.core.Wavefunction) -->\n")
+        pcprint(str(dir(psi4.core.Wavefunction))+"\n")
 
         # try printing out some options
-        print("List of options -->\n",psi4.core.get_options())
+        # pcprint("List of options -->\n",psi4.core.get_options())
 
         # get list of info available from wavefunction file
-        print("\n======== type(file_wfn) --> ",type(file_wfn))
-        print("dir(file_wfn) -->\n",dir(file_wfn))
+        # pcprint("\n======== type(file_wfn) --> ",type(file_wfn))
+        # pcprint("dir(file_wfn) -->\n",dir(file_wfn))
+
+
+
+        # Let us see if file_wfn has frequencies
+        # NOT WORKING ??
+        # print("\nFor file_wfn - lets see if Freq exist")
+        # file_wfn_freq = np.asarray((file_wfn.frequencies()))
+        # print("\ndir(file_wfn.frequencies) -->\n",dir(file_wfn.frequencies))
+        # print("\nfile_wfn_freq = ",file_wfn_freq)
+        #
+        # wfn_print_freq = file_wfn.frequencies().print_out()
+        # print("\n freq print again: ",wfn_print_freq)
+        # print("\n freq print again as np.array: ",np.asarray(wfn_print_freq))
 
         file_mol = file_wfn.molecule()
-        print("\n======== type(file_mol) -> ",type(file_mol))
-        print("\n======== dir(file_mol) --> ",dir(file_mol))
-        print( "\n\n=============================================================")
-        print("\n======== type(file_wfn.molecule()) -> ",type(file_wfn.molecule))
-        print("\n======== dir(file_wfn.molecule()) --> ",dir(file_wfn.molecule()))
+        pcprint("\n======== type(file_mol) -> "+str(type(file_mol))+"\n")
+        pcprint("\n======== dir(file_mol) --> \n"+str(dir(file_mol))+"\n")
+        # print("\n++++ Check if file_mol_freq exist",np.asarray(file_mol.frequencies()))
+        # pcprint( "\n\n=============================================================")
+        # pcprint("\n======== type(file_wfn.molecule()) -> ",type(file_wfn.molecule))
+        # pcprint("\n======== dir(file_wfn.molecule()) --> ",dir(file_wfn.molecule()))
 
         # check that mol_nm == mol_nm
         mol_name = file_mol.name()
         if mol_nm == mol_name:
-            print(f"YEAH mol_nm = {mol_nm} matches with mol_name = {mol_name} in file_wfn ++++++")
+            pcprint(f"YEAH mol_nm = {mol_nm} matches with mol_name = {mol_name} in file_wfn ++++++")
         else:
-            print(f"ERROR mol_nm = {mol_nm} NOT == mol_name = {mol_name} in file_wfn ++++++")
+            pcprint(f"ERROR mol_nm = {mol_nm} NOT == mol_name = {mol_name} in file_wfn ++++++")
             sys.exit()
         num_file_at = file_mol.natom()
         file_geom = np.asarray(file_mol.geometry())
-        print("no_ats in %s molecule = %d   file_geom.shape = " % (
-            mol_name, num_file_at), file_geom.shape)
+        pcprint("no_ats in %s molecule = %d   file_geom.shape = %s \n" % (
+            mol_name, num_file_at,str(file_geom.shape)))
 
         npmass = np.asarray([file_mol.mass(iat) for iat in range(num_file_at)])
 
-        print("\n=========================================================")
+        pcprint("\n=========================================================")
 
-        print("  %s  --- Units = %s" % (
+        pcprint("  %s  --- Units = %s" % (
             file_wfn.molecule().name(), file_wfn.molecule().units()))
-        print("            x            y             z       mass")
+        pcprint("            x            y             z       mass")
 
         #  included atom symbol (label) in print out
         at_label = []
@@ -287,7 +316,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         opt_mol_geom_setup = ""
         for iat in range(num_file_at):
             at_label.append(file_wfn.molecule().label(iat))
-            print("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
+            pcprint("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
                                                            file_geom[iat, 0],
                                                            file_geom[iat, 1],
                                                            file_geom[iat, 2],
@@ -299,15 +328,15 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         opt_mol_geom_setup += "\n no_com \n no_reorient \n symmetry c1 \n " \
                               "units bohr"
 
-        print("opt_mol_geom_setup -->\n",opt_mol_geom_setup)
-        print("\n=========================================================")
+        pcprint("opt_mol_geom_setup -->\n"+opt_mol_geom_setup)
+        pcprint("\n=========================================================\n")
 
-        print("Psi4 %s center of mass = " % file_wfn.molecule().name(),
-              file_wfn.molecule().center_of_mass())
-        print("Psi4 %s rotational consts = " % file_wfn.molecule().name(),
-              file_wfn.molecule().rotational_constants().np)
-        print("and inertia tensor =>\n", file_wfn.molecule().inertia_tensor().np)
-        print("Psi4 fixed com = %s   fixed orientation = %s" % (
+        pcprint("\nPsi4 %s center of mass = %s" % (file_wfn.molecule().name(),
+              str(file_wfn.molecule().center_of_mass())))
+        pcprint("\nPsi4 %s rotational consts =" % file_wfn.molecule().name())
+        pcprint("\n"+ str(file_wfn.molecule().rotational_constants().np))
+        pcprint("\nand inertia tensor =>\n" + str(file_wfn.molecule().inertia_tensor().np))
+        pcprint("\nPsi4 fixed com = %s   fixed orientation = %s" % (
             file_wfn.molecule().com_fixed(),
             file_wfn.molecule().orientation_fixed()))
 
@@ -318,24 +347,22 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         # print("dir(genmol_wfn) -->\n",dir(genmol_wfn))
         #print("\n======== dir(file_wfn.molecule()) --> ",dir(file_wfn.molecule()))
 
-        print(" Name of molecule = file_wfn.molecule.name()?",
-              file_wfn.molecule().name())
+        # pcprint(" Name of molecule = file_wfn.molecule.name()? = %s" %
+        #     file_wfn.molecule().name())
 
 
-        print("\nfile_wfn.basisset().name() = ", file_wfn.basisset().name())
-        print("file_wfn.basisset().nbf() = ", file_wfn.basisset().nbf())
-        print("file_wfn.nirrep() = ", file_wfn.nirrep())
-
-        print("\nfile_wfn energy =", file_wfn.energy())
+        pcprint("\nfile_wfn.basisset().name() = %s " % file_wfn.basisset().name())
+        pcprint("\nfile_wfn.basisset().nbf() = %d "% file_wfn.basisset().nbf())
+        pcprint("\nfile_wfn.nirrep() = %d" % file_wfn.nirrep())
 
         psi4.core.print_out("\nMolecule name: %s" % file_wfn.molecule().name())
         psi4.core.print_out("\n Energy = %21.14f" % file_wfn.energy())
 
-        print("=========== End of working with numpy nphess <= file_wfn.hess ====")
+        pcprint("=========== End of working with numpy nphess <= file_wfn.hess ====")
 
 
 
-        print("\n=========================================================")
+        pcprint("\n=========================================================")
 
         # set up opt_mol - separate class to molecule in hess file
 
@@ -358,7 +385,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         # print("List psi4 options before reseting below -->\n",test_opts)
         # print("dir(test_opts): ",dir(test_opts))
 
-        print("End of psi4_options ============================")
+        pcprint("End of psi4_options ============================")
 
         # # TODO: add jdh options here ------------------
         # # compare local options in jopts with psi4 global options
@@ -455,30 +482,30 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
 
         ############ end-of-case 0 ################
 
-        print("\n++++++++++++++++++++++ Molecular data for %s ++++++++++++++++++++++"
+        pcprint("\n++++++++++++++++++++++ Molecular data for %s ++++++++++++++++++++++"
                 % mol_name)
 
-        print("====================================================================\n")
+        pcprint("====================================================================\n")
 
-        print("num_at in %s molecule = %d   mol_geom.shape = " %
+        pcprint("num_at in %s molecule = %d   mol_geom.shape = " %
               (mol_name, num_at), mol_geom.shape)
 
         print("\n=========================================================")
 
         # print("  %s  --- Units = %s" % (file_wfn.molecule().name(),
         # file_wfn.molecule().units()))
-        print("  %s  --- Units = %s" % (mol_name, units))
-        print("            x            y             z       mass")
+        pcprint("  %s  --- Units = %s" % (mol_name, units))
+        pcprint("            x            y             z       mass")
 
         #  included atom symbol (label) in print out
         for iat in range(num_at):
-            print("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
+            pcprint("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
                                                        mol_geom[iat, 0],
                                                        mol_geom[iat, 1],
                                                        mol_geom[iat, 2],
                                                        npmass[iat]))
 
-        print("\n=========================================================")
+        pcprint("\n=========================================================")
 
 
 
@@ -496,15 +523,15 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     mol = file_wfn
     if mol == psi4.core.get_active_molecule():
         psi4.core.print_out("\n mol = active mol: name = %s" % mol.name())
-        print("\n mol = active mol =",mol)
+        pcprint("\n mol = active mol =",mol)
     else:
         mol = psi4.core.get_active_molecule()
         psi4.core.print_out("\n mol set to active molecule: name = %s" % mol.name())
-        print("\n mol set to active molecule =",mol)
+        pcprint("\n mol set to active molecule = %s" % mol)
     eg_opts = 'scf'
     init_coords = file_geom
     init_com = np.asarray([mol.center_of_mass()[ix] for ix in range(3)])
-    print("\n in args - init_com =",init_com)
+    pcprint("\n in args - init_com =" + str(init_com))
     num_at = len(npmass)
     atom_mass = np.ones(3*num_at, dtype=float)
     for ix in range(3):
@@ -513,7 +540,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
 
     args = (mol, eg_opts, init_coords, init_com, atom_mass, mass_detscl, coord_type)
 
-    print("\n args --> \n",args)
+    pcprint("\n args --> \n"+ str(args))
 
     #  xdisp is the coordinate displacement (in mass wt atomic units?)
     #  set xdisp to zero initially
@@ -550,11 +577,11 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     psi4.core.print_out("\n ref grad vec ->")
     psi4.core.print_out(str(ref_grad))
 
-    print("ref energy = %24.15f" % ref_e,file = en_sum)
-    print("ref grad = ",file=grad_sum)
+    pcprint("ref energy = %24.15f" % ref_e,file = en_sum)
+    pcprint("ref grad = ",file=grad_sum)
     for jat in range(num_at):
         jat3 = 3 * jat
-        print("at %2d G: %14.6e %14.6e %14.6e DG: %14.6e %14.6e %14.6e "
+        pcprint("at %2d G: %14.6e %14.6e %14.6e DG: %14.6e %14.6e %14.6e "
               % (jat, ref_grad[jat3], ref_grad[jat3 + 1], ref_grad[jat3 + 2],
                  0.,0.,0.,),
               file=grad_sum)
@@ -565,8 +592,8 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     coor_disp = run_type_op["disp"]
 
 
-    print(f"\n+++ coor_disp = {coor_disp}  disp_type = {run_type_op['coord_type']}  coord_unit = {run_type_op['coord_unit']} \n", file=en_sum)
-    print(f"\n+++ coor_disp = {coor_disp}  disp_type = {run_type_op['coord_type']}  coord_unit = {run_type_op['coord_unit']} \n", file=grad_sum)
+    pcprint(f"\n+++ coor_disp = {coor_disp}  disp_type = {run_type_op['coord_type']}  coord_unit = {run_type_op['coord_unit']} \n", file=en_sum)
+    pcprint(f"\n+++ coor_disp = {coor_disp}  disp_type = {run_type_op['coord_type']}  coord_unit = {run_type_op['coord_unit']} \n", file=grad_sum)
 
     #  now displace each atom in turn and calc energy and grad
     plus_min = [1.,-1.]
@@ -577,7 +604,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
             for pm in plus_min:
                 row_cnt += 1
 
-                print("\n calc disp %3d iat = %2d  ic =%d pm = %3f" % (row_cnt, iat,icor,
+                pcprint("\n calc disp %3d iat = %2d  ic =%d pm = %3f" % (row_cnt, iat,icor,
                                                                    pm))
                 xdisp = np.zeros_like(xref)
                 xdisp[iat3+icor] += coor_disp*pm
@@ -598,14 +625,14 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
                     fin_dif_2deriv[iat3+icor,:] -= dis_grad
                     fin_dif_2deriv[iat3+icor] *= 0.5/coor_disp
 
-                print("at %2s%2d ic %d pm %3.0f E = %24.14f DE = %24.14f"
+                pcprint("at %2s%2d ic %d pm %3.0f E = %24.14f DE = %24.14f"
                       % (at_label[iat],iat,
                          icor,pm, dis_e,del_e), file=en_sum)
 
-                print("at %2d ic %d pm %3.0f " % (iat,icor,pm), file=grad_sum)
+                pcprint("at %2d ic %d pm %3.0f " % (iat,icor,pm), file=grad_sum)
                 for jat in range(num_at):
                     jat3 = 3*jat
-                    print("at %2s%2d G: %14.6e %14.6e %14.6e DG: %14.6e %14.6e %14.6e "
+                    pcprint("at %2s%2d G: %14.6e %14.6e %14.6e DG: %14.6e %14.6e %14.6e "
                           % (at_label[jat],jat,
                              dis_grad[jat3], dis_grad[jat3+1], dis_grad[jat3+2],
                                   del_grad[jat3], del_grad[jat3+1], del_grad[ jat3+2]),
@@ -615,7 +642,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     # en_sum.close()
     # grad_sum.close()
 
-    print("\n\n================== Finished doing all atom displacements "
+    pcprint("\n\n================== Finished doing all atom displacements "
           "==================")
     psi4.core.print_out("\n\n================== Finished doing all atom "
                  "displacements ==================")
@@ -626,31 +653,31 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     en_std = np.std(en_array[1:,0])
     gnorm_mean = 0.
     # print("sorted_en -->\n",sorted_en)
-    print("",file=en_sum)
-    print("+-----------------------------------------------------------+",file=en_sum)
-    print("|      Sorted energies for different atom displacements     |",file=en_sum)
-    print("|          coord_type = %6s    disp = %7.3f     |" %
+    pcprint("",file=en_sum)
+    pcprint("+-----------------------------------------------------------+",file=en_sum)
+    pcprint("|      Sorted energies for different atom displacements     |",file=en_sum)
+    pcprint("\n|          coord_type = %6s    disp = %7.3f     |" %
           (coord_type, coor_disp))
-    print("|     First record should be for the reference geom         |",file=en_sum)
-    print("+-----------------------------------------------------------+\n",file=en_sum)
-    print(f"\n+++ coor_disp = {coor_disp}  disp_type = {run_type_op['coord_type']}  coord_unit = {run_type_op['coord_unit']} \n", file=en_sum)
+    pcprint("|     First record should be for the reference geom         |",file=en_sum)
+    pcprint("+-----------------------------------------------------------+\n",file=en_sum)
+    pcprint(f"\n+++ coor_disp = {coor_disp}  disp_type = {run_type_op['coord_type']}  coord_unit = {run_type_op['coord_unit']} \n", file=en_sum)
     sord = 0
     for sen in sorted_en:
         sord += 1
         gnorm = np.sqrt(np.dot(gr_array[sen,:],gr_array[sen,:]))
         if sen == 0:
-            print(" found ref molecule - skip adding grad norm to total gnorm",file=en_sum)
-            print("sen = %d  and sord = %d" % (sen,sord),file=en_sum)
+            pcprint(" found ref molecule - skip adding grad norm to total gnorm",file=en_sum)
+            pcprint("sen = %d  and sord = %d" % (sen,sord),file=en_sum)
         else:
             gnorm_mean += gnorm
-        print("%2d at %2s%2d xyz %d pm %2d     DE = %18.14f E = %20.14f  |grad| = %15.10f"
+        pcprint("%2d at %2s%2d xyz %d pm %2d     DE = %18.14f E = %20.14f  |grad| = %15.10f"
               % (sord, at_label[dis_label[sen,0]],
                  dis_label[sen,0],dis_label[sen,1],dis_label[sen,2],
                                          en_array[sen,0],en_array[sen,1],gnorm),file=en_sum)
         # print("order = ",sord,dis_label[sen,0],dis_label[sen,1],dis_label[sen,2])
 
-    print("+-----------------------------------------------------------+",file=en_sum)
-    print("|  en_mean = %12.9f  en_std = %12.9f    gnorm_mean = %12.9f" %
+    pcprint("+-----------------------------------------------------------+",file=en_sum)
+    pcprint("|  en_mean = %12.9f  en_std = %12.9f    gnorm_mean = %12.9f" %
           (en_mean,en_std,gnorm_mean/(6*num_at)),file=en_sum)
 
     en_sum.close()
@@ -665,7 +692,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
     for iind in range(3*num_at):
         for  jjnd in range(iind):
             ave_hess_ij = 0.5 * (fin_dif_2deriv[iind,jjnd] + fin_dif_2deriv[jjnd,iind])
-            print(" iind,jjnd = %d,%d  hess[ii,jj] = %15.9f   hess[jj,ii] = %15.9f   ave_hess = %15.9f"
+            pcprint("\n iind,jjnd = %d,%d  hess[ii,jj] = %15.9f   hess[jj,ii] = %15.9f   ave_hess = %15.9f"
                   % (iind,jjnd,fin_dif_2deriv[iind,jjnd],fin_dif_2deriv[jjnd,iind],ave_hess_ij))
             fin_dif_2deriv[iind,jjnd] = ave_hess_ij
             fin_dif_2deriv[jjnd,iind] = ave_hess_ij
@@ -686,7 +713,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
 
         #   add in traditional ehess frequency analysis here
 
-        print("\n++++ (0) Traditional atomic mass weighted freq calc using numerical diff ehess ++++\n")
+        pcprint("\n++++ (0) Traditional atomic mass weighted freq calc using numerical diff ehess ++++\n")
         # second derivative matrix  nphess -> from above file_wfn read
 
         nphess = fin_dif_2deriv
@@ -699,7 +726,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
             # probably should change this
             ehess_type = 'mhess'
         else:
-            print("***ERROR*** coord_type = %s and not valid"% coord_type)
+            pcprint("***ERROR*** coord_type = %s and not valid"% coord_type)
             sys.exit()
 
         mwt_hess, umass, atmass_gmean, inv_hess, ret_freq_type, anal_freq, \
@@ -721,35 +748,35 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
         # print("  %s  --- Units = %s" % (file_wfn.molecule().name(),
         # file_wfn.molecule().units()))
 
-        print('numerical frequencies - ret_freq_type = %s\n' % ret_freq_type,
-              anal_freq)
+        pcprint('numerical frequencies - ret_freq_type = %s\n' % ret_freq_type)
+        pcprint(str(anal_freq) + "\n")
 
-        print("\n      ======= End of (0) %s frequencies from psi4 hess "
+        pcprint("\n      ======= End of (0) %s frequencies from psi4 hess "
               "wavefn========\n\n" % mol_name)
 
         ####################################################################
-    print("\n++++++++++++++++++++++ Molecular data for %s ++++++++++++++++++++++"
+    pcprint("\n++++++++++++++++++++++ Molecular data for %s ++++++++++++++++++++++"
           % mol_name)
 
-    print("====================================================================\n")
+    pcprint("====================================================================\n")
 
-    print("num_at in %s molecule = %d   mol_geom.shape = " %
-          (mol_name, num_file_at),mol_geom.shape)
+    pcprint("num_at in %s molecule = %d   mol_geom.shape = %s" %
+          (mol_name, num_file_at,str(mol_geom.shape)))
 
 
-    print("\n=========================================================")
+    pcprint("\n=========================================================")
 
     #print("  %s  --- Units = %s" % (file_wfn.molecule().name(),
     # file_wfn.molecule().units()))
-    print("  %s  --- Units = %s" % (mol_name, units))
-    print("            x            y             z       mass")
+    pcprint("  %s  --- Units = %s" % (mol_name, units))
+    pcprint("            x            y             z       mass")
 
     #  included atom symbol (label) in print out
     for iat in range(num_file_at):
-        print("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
+        pcprint("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
                                                        mol_geom[iat, 0], mol_geom[iat, 1], mol_geom[iat, 2], npmass[iat]))
 
-    print("\n=========================================================")
+    pcprint("\n=========================================================")
     psi4.core.close_outfile()
 
 ################################################################################
@@ -761,34 +788,35 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts):
 if __name__ == "__main__":
     import argparse
     import os
-    print("+-----------------------------------------------------------+")
-    print("|     Start of main pgm to run/test jdh_build_hess.py       |")
-    print("+-----------------------------------------------------------+")
+    pcprint("\n+-----------------------------------------------------------+")
+    pcprint("\n|     Start of main pgm to run/test jdh_build_hess.py       |")
+    pcprint("\n+-----------------------------------------------------------+\n")
 
     # set up starting program
     
     parser = argparse.ArgumentParser(
             description="""
-                        Program to build num jdh_hessian matrices using either cart or mwt coordinates
-                        1) Use setup_psi4_npy_file to created appropriate wavefn.npy file for some molecule
-                        2) Program checks for existence of wavefn.npy and wavefn.json files
-                        3) The psi4 wavefn files can be generated at the molecule's 
-                           starting or optimized equil geometry
+                        Program to build num jdh_hessian matrices using either cart or masswt coordinates.
+                        
+                        \n 1) Use setup_psi4_npy_file to create appropriate wavefn.npy file for some molecule.
+                        \n 2) Program checks for existence of both wavefn.npy and wavefn.json files.
+                        \n 3) The psi4 wavefn files can be generated at the molecule's 
+                           starting or optimized equil geometry.
                         """)
     parser.add_argument('-g','--geom',default='equil',
-                        help = 'geom used to build hessian - options "equil" or "init_pt"')
+                        help = 'geom used to build hessian - options "equil" (def) or "init_pt"')
     parser.add_argument('-d','--disp',type=float, default = 0.01,
-                            help = 'num displacement in the finite differentiation')
+                            help = 'num displacement in the finite differentiation (def 0.01)')
     parser.add_argument('-c','--coord',default='cart',
-                        help='coordinate type used to form hessian - options "cart" or "mwt"')
-    parser.add_argument('-u','--coord_unit',default='bohr',
-                        help='coords units - options "bohr" or "angstrom"')
-    parser.add_argument('npy_file',help='Name of wavefn file - leave off .npy and .json - NEEDED')
+                        help='coord type "cart" (def) or "masswt" used to form hessian')
+    parser.add_argument('-u','--coord_unit',default='angstrom',
+                        help=' "angstrom" (def) or "bohr"')
+    parser.add_argument('npy_file',help='Name of wavefn file - BUT leave off .npy and .json extensions')
     args = parser.parse_args()
 
-    print("type for args: ",type(args))
+    pcprint("\ntype for args: "+ str(type(args)))
 
-    print("args",args)
+    pcprint("\nargs" + str(args))
 
     # get working directory and look for files with mol_name
     work_dir = os.getcwd()
@@ -798,7 +826,7 @@ if __name__ == "__main__":
     build_hess = args.npy_file[:-4] if args.npy_file[-4:] == '.npy' else args.npy_file
     fjson = build_hess+'.json'
     fnpy = build_hess +'.npy'
-    print(f"debug build_hess = {build_hess} fnpy = {fnpy} and fjson = {fjson}")
+    pcprint(f"debug build_hess = {build_hess} fnpy = {fnpy} and fjson = {fjson}")
 
     # read in jdh psi4 options dictionary from build_hess
     # TODO: add test that fnpy and fjson exist
@@ -806,7 +834,7 @@ if __name__ == "__main__":
     # TODO: add total energy and max force of current geometry to jopts
     jopts = sav_psi4opt.json_wrt_rd_dict("read", build_hess, build_hess)
 
-    print("jopts dictionary - type = ",type(jopts)," -->: \n",jopts)
+    pcprint("\njopts dictionary - type = "+str(type(jopts))+" -->: \n" + str(jopts))
 
 
     # gather argparse options for type of hessian build - save options in run_type_op
@@ -814,48 +842,27 @@ if __name__ == "__main__":
     # mol_nm = args.mol_name
     # mol_nm = "CH3NH2"  # TODO: get mole name from wavefn or npy_file name
     mol_nm = build_hess.split("_",1)[0]
-    print("molecule name = %s" % mol_nm)
+    pcprint("molecule name = %s" % mol_nm)
     # print out other parameters
     mol_geom = args.geom
-    print("working with %s %s geometry" % (mol_geom,mol_nm))
+    pcprint("working with %s %s geometry" % (mol_geom,mol_nm))
     disp = args.disp
+    # rescale disp if disp > 1.
+    if disp >= 1.:
+        disp /= 100.
+        pcprint(f"args.goem = {args.disp} - disp reset to {disp}")
     coord_type = args.coord
     coord_unit = args.coord_unit
-    print('build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
+    pcprint('build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
 
     run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp,
                    'coord_type': coord_type, 'coord_unit': coord_unit,
                    'npy_file': build_hess}
 
-    print('arg_parse parameters converted to the run_type_op dictionary \n',run_type_op)
-
-
-
-
-    # mol_nm = "CH3NH2"
-    # # set up coord_type - pick either "cart" or "masswt"
-    # coord_type = "cart"
-    # # coord_type = "masswt"
-    # # set up coordinate displacement
-    # coor_disp = 0.01
-    # print("|          coord_type = %6s    disp = %7.3f     |" %
-    #         (coord_type, coor_disp))
-    # print("+-----------------------------------------------------------+")
-    # #
-    #
-    # # TODO: set up run_type_op dictionary with parameters to build_num_hess
-    # run_type_op = {'mol_nm':mol_nm,      # molecule name
-    #                'mol_geom':'equil',   # options 'equil' or 'init_pt'
-    #                'disp':coor_disp,     # num disp for numerical differentiation
-    #                'coord_type':coord_type,  # units for molecule's coord in dat file - "cart" or "mwt"
-    #                'coord_unit':'angstrom',   # units for molecule's coord in dat file - 'angstrom' or 'bohr'
-    #                'npy_file':f"{mol_nm}_opt_wfn"    # files with wfn data and psi4 parameters -
-    #                                                  # augment fnames with ".npy' or ".json"
-    #                }
+    pcprint('\narg_parse parameters converted to the run_type_op dictionary \n'+ str(run_type_op))
 
     # call jdh_build
     jdh_build_num_hess(mol_nm, run_type_op, jopts)
 
-    # TODO: lots more cleaning up
     #
-    print("\n+++++++ Finished test of jdh_build_num_hess +++++++\n")
+    pcprint("\n+++++++ Finished test of jdh_build_num_hess +++++++\n")

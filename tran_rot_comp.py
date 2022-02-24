@@ -2,6 +2,7 @@
 # tran_rot_comp.py  - uses molecule geom and masses to obtain mass weighted trans and rot vib modes
 
 import numpy as np
+import psi4
 import sys
 
 import scipy.linalg
@@ -44,13 +45,14 @@ def sclmass_set(atmass,mwt_type="utmwt"):
     
     #print("molecule %s molecular weight %15.6f and geometric mean of atomic masses = %15.8f" 
     #     % (file_wfn.molecule().name(),np.sum(atmass),atmass_gmean))
-    print("\n++umass_set: molecular weight %.7f and geometric mean of atomic masses = %.8f" 
+    psi4.core.print_out("\n\n++umass_set: molecular weight %.7f and geometric mean of atomic masses = %.8f" \
+
           % (np.sum(atmass),atmass_gmean))
 
     mass_scl = atmass_gmean  # set for mass_type = "utmwt"
     if mwt_type == "atmwt":
         mass_scl = 1.
-        print("For trad masses - mass_scl = 1")
+        psi4.core.print_out("\nFor trad masses - mass_scl = 1")
     umass = np.repeat(atmass,3)/mass_scl
     # umass^half
     umass5 = np.sqrt(umass)
@@ -58,16 +60,13 @@ def sclmass_set(atmass,mwt_type="utmwt"):
     umassm5=1./umass5
     
         
-    print("umass**one gmean = %.10f products = %15.9e atom sum = %.10f  "
-          "umass[::3] ->\n"
+    psi4.core.print_out("\numass**one gmean = %.10f products = %15.9e atom sum = %.10f umass[::3] ->\n"
           % (scipy.stats.gmean(umass)
-              , np.prod(umass), np.sum(umass)/3.),umass[::3])
-    print("umass**half gmean %.12f prod = %12.5e  atom sum = %.10f umass5 "
-          "->\n" %
-        (scipy.stats.gmean(umass5),np.prod(umass5),np.sum(umass5)/3.),umass5[::3])
-    print("umass**-half gmean %.12f  prod = %12.5e  atom sum = %.10f umassm5 "
-          "->\n" %
-        (scipy.stats.gmean(umassm5),np.prod(umassm5), np.sum(umassm5)/3.),umassm5[::3])
+              , np.prod(umass), np.sum(umass)/3.) + str(umass[::3]))
+    psi4.core.print_out("\numass**half gmean %.12f prod = %12.5e  atom sum = %.10f umass5 ->\n" %
+        (scipy.stats.gmean(umass5),np.prod(umass5),np.sum(umass5)/3.) + str(umass5[::3]))
+    psi4.core.print_out("\numass**-half gmean %.12f  prod = %12.5e  atom sum = %.10f umassm5 ->\n" %
+        (scipy.stats.gmean(umassm5),np.prod(umassm5), np.sum(umassm5)/3.) + str(umassm5[::3]))
     
     return np.array([umass, umass5, umassm5]),mass_scl
 
@@ -78,8 +77,7 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
     """ (2.1) Form mass weighted trans and rotational vectors
     init_xyz_array and atmass are np darray objects """
 
-    
-    print("\n\n========================Start of gen_mwt_trans_rots============================\n\n")
+    psi4.core.print_out("\n\n\n========================Start of gen_mwt_trans_rots============================\n\n")
 
     mat_dim = 3*len(atmass)
     # find center of coord in mol_xyz
@@ -91,20 +89,20 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
     #print(" init cofm = ",cofm)
     tot_mass = np.sum(atmass)
     cofm /= tot_mass
-    print("Initial center of mass for molecule =",cofm)
+    psi4.core.print_out("\nInitial center of mass for molecule ="+str(cofm))
 
     # original: xyz_array -= cofm
     xyz_array = init_xyz_array - cofm
     # check centered
-    print("Mol coordinates (xyz_array) now centered about origin:\n",xyz_array)
+    psi4.core.print_out("\nMol coordinates (xyz_array) now centered about origin:\n" + str(xyz_array))
     cofm = np.dot(atmass,xyz_array)/tot_mass
     for i in range(3):
         if cofm[i] > 1.e-8:
-            print("ERROR: new cofm not at orgin: ",cofm)
+            psi4.core.print_out("\nERROR: new cofm not at orgin: " + str(cofm))
     
     
     
-    print("\n========= Start forming mass weighted rotational vectors =======")
+    psi4.core.print_out("\n\n========= Start forming mass weighted rotational vectors =======")
     
     # form rotational vectors
     rotsv =np.zeros((mat_dim,3),dtype=float,order='F')
@@ -130,20 +128,20 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
         norm[rvec] = np.linalg.norm(rotsv[:,rvec])
         if np.abs(norm[norm_cnt]) < 1.e-10:
             # delete zero column from rotsv vectors
-            print("rot vector norm_cnt is zero - deleting from col %d from rotsv" % norm_cnt)
-            print("rotsv[%d] ->" % norm_cnt,rotsv[:,norm_cnt])
+            psi4.core.print_out("\nrot vector norm_cnt is zero - deleting from col %d from rotsv" % norm_cnt)
+            psi4.core.print_out("\nrotsv[%d] ->" % norm_cnt + str(rotsv[:,norm_cnt]))
             rotsv = np.delete(rotsv,norm_cnt,axis=1)
         else:
             norm_cnt += 1
             
     if norm_cnt < 2:
-        print("\n========== Linear molecule - no rot vectors = %d" % norm_cnt+1)    
-    print("rotv norms = ",norm)
+        psi4.core.print_out("\n\n========== Linear molecule - no rot vectors = %d" % norm_cnt+1)    
+    psi4.core.print_out("\nrotv norms = " + str(norm))
 
     # check that the rotational vectors orthonormal
     momenti_tensor = np.dot(rotsv.T,rotsv)
     
-    print("====moments tensor from rotational disp vectors:\n",momenti_tensor)
+    psi4.core.print_out("\n====moments tensor from rotational disp vectors:\n" + str(momenti_tensor))
     
     # find eigenvals and evecs of rot_orthog_chk
 
@@ -157,22 +155,22 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
     no_deg_mi = 0
     for iax in range(num_rot_axis-1):
         if np.abs(r_eval[iax] - r_eval[iax+1]) < 1.e-10:
-            print("moment of inertia %d and %d are degenerate = %12.6f"
+            psi4.core.print_out("\nmoment of inertia %d and %d are degenerate = %12.6f"
                   % (iax,iax+1,r_eval[iax]))
             no_deg_mi += 1
 
     if no_deg_mi > 0:
-        print("WARNING: need to deal with deg m of inertia in "
+        psi4.core.print_out("\nWARNING: need to deal with deg m of inertia in "
               "tran_rot_comp.py")
-        print("NOT SETUP at present jdhd 22-july-2020")
+        psi4.core.print_out("\nNOT SETUP at present jdhd 22-july-2020")
 
     if num_rot_axis != 3:
-        print("NOTE: number of rotational axis = %d and NOT 3" %
+        psi4.core.print_out("\nNOTE: number of rotational axis = %d and NOT 3" %
               num_rot_axis)
     
-    print("\n===== eval and evec for momenti_tensor")
+    psi4.core.print_out("\n\n===== eval and evec for momenti_tensor")
     for ivec in range(len(r_eval)):
-        print("eval[%d] = %12.6f  evec[:,%d]" % (ivec,r_eval[ivec],ivec),r_evec[:,ivec])
+        psi4.core.print_out("\neval[%d] = %12.6f  evec[:,%d]" % (ivec,r_eval[ivec],ivec) + str(r_evec[:,ivec]))
 
     #==================================================================
 
@@ -228,13 +226,13 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
     # check that translational modes orthog to rotations
     #print("translational vec transv:\n",transv)
     trans_rot_orthog = np.dot(transv.T,rotsv)
-    print("\nCheck that trans modes orthog to rotations:\n",trans_rot_orthog)
+    psi4.core.print_out("\n\nCheck that trans modes orthog to rotations:\n" + str(trans_rot_orthog))
     
     # combine transv and rotsv into one matrix
     tran_rot_v = np.hstack((transv,rotsv))
-    print("Combined trans and rots vectors shape = ",tran_rot_v.shape)
+    psi4.core.print_out("\nCombined trans and rots vectors shape = " + str(tran_rot_v.shape))
     
-    print("\n\n========================End of gen_mwt_trans_rots============================\n\n")
+    psi4.core.print_out("\n\n\n========================End of gen_mwt_trans_rots============================\n\n")
     
     return tran_rot_v
 
@@ -252,9 +250,9 @@ def vibs_trans_comp(mass_wt_vec,transv,proj= False,inv_hess=False,ckprnt=False):
     ck_print(" trans_comp.shape = ",trans_comp.shape)
     
     if proj:
-        print("\nAfter projection translational components of normal modes")
+        psi4.core.print_out("\n\nAfter projection translational components of normal modes")
     else:
-        print("\nTranslational components of normal modes")
+        psi4.core.print_out("\n\nTranslational components of normal modes")
     ck_print("Mode       x            y           z",turn_on=ckprnt)
     tot_tnorm = 0.
     xyznorm = np.zeros(3,dtype=float)
@@ -269,7 +267,7 @@ def vibs_trans_comp(mass_wt_vec,transv,proj= False,inv_hess=False,ckprnt=False):
         ck_print("%4d %10.6f %10.6f %10.6f  Tot %10.6f" 
               % (imode,trans_comp[0,imode], trans_comp[1,imode], trans_comp[2,imode], tnorm[imode]),turn_on=ckprnt)
     ck_print("===== ================================================",turn_on=ckprnt)    
-    print("Tots %10.6f %10.6f %10.6f  Tot %10.6f"
+    psi4.core.print_out("\nTots %10.6f %10.6f %10.6f  Tot %10.6f"
           % (xyznorm[0], xyznorm[1], xyznorm[2],tot_tnorm))
 
     #return 0,tnorm,transv.T
@@ -293,9 +291,9 @@ def vibs_rots_comp(mass_wt_vec,rotsv,proj=False,inv_hess=False,ckprnt=False):
     rots_comp = np.dot(rotsv.T,mass_wt_vec)    
     
     if proj:
-        print("\nAfter projection rotational components in normal modes")
+        psi4.core.print_out("\n\nAfter projection rotational components in normal modes")
     else:
-        print("\nRotational components in normal modes")
+        psi4.core.print_out("\n\nRotational components in normal modes")
     ck_print("Mode       x            y           z",turn_on=ckprnt)
     tot_rnorm = 0
     xyznorm = np.zeros(3,dtype=float)
@@ -313,7 +311,7 @@ def vibs_rots_comp(mass_wt_vec,rotsv,proj=False,inv_hess=False,ckprnt=False):
             ck_print("%4d %10.6f %10.6f %10.6f  Tot %10.6f"
               % (imode,rots_comp[0,imode], rots_comp[1,imode], rots_comp[2,imode], rnorm[imode]),turn_on=ckprnt)
     ck_print("===== ================================================",turn_on=ckprnt) 
-    print("Tots %10.6f %10.6f %10.6f  Tot %10.6f"
+    psi4.core.print_out("\nTots %10.6f %10.6f %10.6f  Tot %10.6f"
           % (xyznorm[0], xyznorm[1], xyznorm[2],tot_rnorm))
 
     return 0,rnorm
@@ -326,9 +324,9 @@ def tot_tr_in_vibs(tcomp,rcomp,freq,proj=False,inv_hess=False,ckprnt=False):
     tot_tnorm = 0.
     tot_rnorm = 0.
     if proj:
-        print("\n==Summary of trans and rot components in projected vibrations==")
+        psi4.core.print_out("\n\n==Summary of trans and rot components in projected vibrations==")
     else:
-        print("\n====== Summary of trans and rot components in vibrations ======")
+        psi4.core.print_out("\n\n====== Summary of trans and rot components in vibrations ======")
     ck_print("Comp    trans     rot              Total          Freq",turn_on=ckprnt)
     for imode in range(len(tcomp)):
         tn = tcomp[imode]
@@ -342,7 +340,7 @@ def tot_tr_in_vibs(tcomp,rcomp,freq,proj=False,inv_hess=False,ckprnt=False):
               % (imode,tcomp[imode],rcomp[imode],trnorm,freq[imode]),turn_on=ckprnt)
 
     ck_print("===== ==========================================",turn_on=ckprnt) 
-    print("Total %10.6f  %10.6f  Tot  %10.6f" 
+    psi4.core.print_out("\nTotal %10.6f  %10.6f  Tot  %10.6f" 
           % (tot_tnorm, tot_rnorm, tot_trnorm))
     
     return 0

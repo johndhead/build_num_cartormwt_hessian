@@ -11,7 +11,8 @@ import psi4
 import numpy as np
 import sys
 import wrt_rd_dict_to_json as sav_psi4opt
-import build_num_hess_main as jdh_bh
+# import build_num_hess_main as jdh_bh  build_num_hess... renamed to jdh_build_hess
+import jdh_build_hess as jdh_bh
 
 # to save psi4 opts use: sav_psi4opt.wrt_rd_dict_to_json(wrd,job_name,json_file,optdict=None)
 
