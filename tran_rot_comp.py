@@ -8,16 +8,19 @@ import sys
 import scipy.linalg
 import scipy.stats
 
-def ck_print(*args,turn_on=False):
+def ck_print(prt_txt,turn_on=False):
     """ function ck_print(*args,turn_on=False)
+        originally: def ck_print(*args, turn_on=False):
         selectively reduces the number of prints
         set turn_on = True to check project of trans and rot modes
                       working correctly
     """
+    # import jdh_build_hess as jdh_bh
     if turn_on:
-        print(*args)
+        #jdh_bh.pc.pcprint(prt_txt)
+        # print(*args)
+        psi4.core.print_out(prt_txt)
 
-             
 
 # set up unitary masses array
 def sclmass_set(atmass,mwt_type="utmwt"):
@@ -193,11 +196,12 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
     trans_rotv = np.dot(rotsv,r_evec)
     
     
-    ck_print("transformed rotv:",trans_rotv.shape,"\n",trans_rotv)
+    ck_print("transformed rotv: %s\n",str(trans_rotv.shape))
+    ck_print(str(trans_rotv))
     
     trans_rot_orthog_chk =np.dot(trans_rotv.T,trans_rotv)
     
-    ck_print("Metric for new trans_rotv:\n",trans_rot_orthog_chk)
+    ck_print("Metric for new trans_rotv:\n" + str(trans_rot_orthog_chk))
     #print("Metric for new trans_rotv:\n",trans_rot_orthog_chk)
     
     #renormalize trans_rotv and place vectors in rotsv
@@ -206,10 +210,10 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
         rotsv[:,i] = trans_rotv[:,i]/np.sqrt(trans_rot_orthog_chk[i,i])
 
         
-    ck_print("Confirm final rot vectors orthonormal:\n",np.dot(rotsv.T,rotsv))
+    ck_print("Confirm final rot vectors orthonormal:\n"+str(np.dot(rotsv.T,rotsv)))
     #print("Confirm final rot vectors orthonormal:\n",np.dot(rotsv.T,rotsv))
     
-    ck_print("\nOrthonormal mass weighted rotational vectors\n",rotsv)
+    ck_print("\nOrthonormal mass weighted rotational vectors\n"+str(rotsv))
     
     # form translational modes
     tranv_norm = np.sqrt(tot_mass)
@@ -221,7 +225,7 @@ def gen_mwt_trans_rots(init_xyz_array,atmass):
         for jat in range(3):
             transv[jat+iat3,jat] = sqmass
             
-    ck_print("Mass weighted trans vecs =\n",transv)
+    ck_print("Mass weighted trans vecs =\n"+str(transv))
     
     # check that translational modes orthog to rotations
     #print("translational vec transv:\n",transv)
@@ -244,10 +248,10 @@ def vibs_trans_comp(mass_wt_vec,transv,proj= False,inv_hess=False,ckprnt=False):
     # now compute translation in mat_wt_vec
     #for ivec in range(mat_dim):    
     #trans_comp = np.dot(transv.T,mass_wt_vec)
-    ck_print("==in vibs_trans_comp transv.shape = ",transv.shape)
+    ck_print("==in vibs_trans_comp transv.shape = "+str(transv.shape))
     trans_comp = np.dot(transv.T,mass_wt_vec)
     
-    ck_print(" trans_comp.shape = ",trans_comp.shape)
+    ck_print(" trans_comp.shape = "+str(trans_comp.shape))
     
     if proj:
         psi4.core.print_out("\n\nAfter projection translational components of normal modes")
@@ -287,7 +291,7 @@ def vibs_rots_comp(mass_wt_vec,rotsv,proj=False,inv_hess=False,ckprnt=False):
     # now compute rot components in mat_wt_vec
     
     #for ivec in range(mat_dim): 
-    ck_print("\n==in vibs_rots_comp rotsv.shape = ",rotsv.shape)
+    ck_print("\n==in vibs_rots_comp rotsv.shape = "+str(rotsv.shape))
     rots_comp = np.dot(rotsv.T,mass_wt_vec)    
     
     if proj:
@@ -327,7 +331,7 @@ def tot_tr_in_vibs(tcomp,rcomp,freq,proj=False,inv_hess=False,ckprnt=False):
         psi4.core.print_out("\n\n==Summary of trans and rot components in projected vibrations==")
     else:
         psi4.core.print_out("\n\n====== Summary of trans and rot components in vibrations ======")
-    ck_print("Comp    trans     rot              Total          Freq",turn_on=ckprnt)
+    ck_print("\nComp    trans     rot              Total          Freq",turn_on=ckprnt)
     for imode in range(len(tcomp)):
         tn = tcomp[imode]
         rn = rcomp[imode]
@@ -336,7 +340,7 @@ def tot_tr_in_vibs(tcomp,rcomp,freq,proj=False,inv_hess=False,ckprnt=False):
         tot_rnorm += rn
         tot_trnorm += trnorm
         if trnorm > 1.e-7:
-            ck_print("%4d  %10.6f  %10.6f  Tot  %10.6f   %11.3f"
+            ck_print("\n%4d  %10.6f  %10.6f  Tot  %10.6f   %11.3f"
               % (imode,tcomp[imode],rcomp[imode],trnorm,freq[imode]),turn_on=ckprnt)
 
     ck_print("===== ==========================================",turn_on=ckprnt) 

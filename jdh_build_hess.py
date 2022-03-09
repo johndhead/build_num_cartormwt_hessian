@@ -287,7 +287,8 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts,pc= None):
 
         #  new output file naming setup
         #  add extension to out file name = "_{geom_type}_{disp_type}_{disp}
-        out_ext = f"_{run_type_op['mol_geom'][:4]}_{run_type_op['coord_type'][0:4]}_{int(100*run_type_op['disp'])}"
+        # original: out_ext = f"_{run_type_op['mol_geom'][:4]}_{run_type_op['coord_type'][0:4]}_{int(100*run_type_op['disp'])}"
+        out_ext = f"_{run_type_op['coord_type'][0:4]}_{int(100*run_type_op['disp'])}"
         print("file_name extension =",out_ext)
         mol_nm = run_type_op['mol_nm']
         output_file = run_type_op['npy_file']+out_ext
@@ -820,7 +821,7 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts,pc= None):
     pc.pcprint("\n++++++++++++++++++++++ Molecular data for %s ++++++++++++++++++++++"
           % mol_name)
 
-    pc.pcprint("====================================================================\n")
+    pc.pcprint("\n====================================================================\n")
 
     pc.pcprint("num_at in %s molecule = %d   mol_geom.shape = %s" %
           (mol_name, num_file_at,str(mol_geom.shape)))
@@ -830,12 +831,12 @@ def jdh_build_num_hess(mol_nm,run_type_op,jopts,pc= None):
 
     #print("  %s  --- Units = %s" % (file_wfn.molecule().name(),
     # file_wfn.molecule().units()))
-    pc.pcprint("  %s  --- Units = %s" % (mol_name, units))
-    pc.pcprint("            x            y             z       mass")
+    pc.pcprint("\n  %s  --- Units = %s" % (mol_name, units))
+    pc.pcprint("\n            x            y             z       mass")
 
     #  included atom symbol (label) in print out
     for iat in range(num_file_at):
-        pc.pcprint("%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
+        pc.pcprint("\n%3d %2s %12.7f %12.7f %12.7f %12.7f" % (iat, at_label[iat],
                                                        mol_geom[iat, 0], mol_geom[iat, 1], mol_geom[iat, 2], npmass[iat]))
 
     pc.pcprint("\n=========================================================")
@@ -907,10 +908,10 @@ if __name__ == "__main__":
     # mol_nm = args.mol_name
     # mol_nm = "CH3NH2"  # TODO: get mole name from wavefn or npy_file name
     mol_nm = build_hess.split("_",1)[0]
+    run_type_op['mol_nm'] = mol_nm
     pc.pcprint("molecule name = %s" % mol_nm)
     # print out other parameters
-    mol_geom = args.geom
-    pc.pcprint("working with %s %s geometry" % (mol_geom,mol_nm))
+    pc.pcprint("\n working with %s %s geometry" % (args.geom, mol_nm))
     disp = args.disp
     # rescale disp if disp > 1.
     if disp >= 1.:
@@ -918,11 +919,11 @@ if __name__ == "__main__":
         pc.pcprint(f"args.goem = {args.disp} - disp reset to {disp}")
     coord_type = args.coord
     coord_unit = args.coord_unit
-    pc.pcprint('build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
+    pc.pcprint('\n build hessian will displace atoms by %7f bohr using coord_type = %s' % (disp,coord_type))
 
-    run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp,
-                   'coord_type': coord_type, 'coord_unit': coord_unit,
-                   'npy_file': build_hess}
+    # run_type_op = {'mol_nm':mol_nm, 'mol_geom': mol_geom, 'disp':disp,
+    run_type_op = {'mol_nm': mol_nm, 'mol_geom': args.geom, 'disp':disp, 'coord_type': args.coord,
+                    'coord_unit': coord_unit, 'npy_file': build_hess}
 
     pc.pcprint('\narg_parse parameters converted to the run_type_op dictionary \n'+ str(run_type_op))
 
