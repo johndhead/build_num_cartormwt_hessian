@@ -285,7 +285,7 @@ def mwt_ehess(mol_name,ehess,mass,mass_type="atmwt",mass_detscl=1.,inv_hess=Fals
     
     psi4.core.print_out("\n\n================ Start of forming mass weighted hessian =============")
     psi4.core.print_out("\n=== mass_type = %s   mass_detscl = %10.5f    inv_hess = %s\n" % (mass_type,mass_detscl,inv_hess))
-    psi4.core.print_out("\n==== mass.shape = ",mass.shape)
+    psi4.core.print_out("\n==== mass.shape = %s" % str(mass.shape))
     if mass_type == "atmwt":
         psi4.core.print_out("\ntraditional freq calc on molecule %s with molar mass  %.7f" 
           % (mol_name,np.sum(mass[0])/3.))

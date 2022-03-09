@@ -150,8 +150,9 @@ if __name__ == "__main__":
         print(f"need to run: 'psi4 -i {build_hess}.dat' first to form {build_hess}.npy file")
         if mol_files.count(build_hess+'.dat') == 1:
             # run the psi4 job to form the npy job
-            print(f"++++ {build_hess}.dat exists - ready to running psi4 job")
-            pass
+            # changed so that you manually check the dat file: print(f"++++ {build_hess}.dat exists - ready to running psi4 job")
+            print(f"++++ {build_hess}.dat ALREADY EXISTS - delete the dat file if you want to run this job\n")
+            sys.exit()
 
         elif mol_files.count(mol_nm + ".xyz") == 0:
             print(f"****ERROR**** file {mol_nm}+.xyz DOES NOT EXIST - fix and try again ****")
@@ -188,34 +189,34 @@ if __name__ == "__main__":
             # end of TODO: block probably for deletion
 
             # set up "init_pt" or "equili" geom dat file
-            f_init_geom = open(build_hess + '.dat','wt')
+            f_psi4_dat = open(build_hess + '.dat', 'wt')
 
             if mol_geom == "init_pt":
-                print(f"# psi4 calc hessian file for {mol_nm} at init geom",file=f_init_geom)
+                print(f"# psi4 calc hessian file for {mol_nm} at init geom", file=f_psi4_dat)
 
             elif mol_geom == "equil":
-                print(f"# psi4 calc hessian file for {mol_nm} at optimized geom",file=f_init_geom)
+                print(f"# psi4 calc hessian file for {mol_nm} at optimized geom", file=f_psi4_dat)
 
-            print("\nmemory 500 mb",file=f_init_geom)
+            print("\nmemory 500 mb", file=f_psi4_dat)
 
             # set up molecoordinates
-            print(f"molecule {mol_nm}" +" {",file=f_init_geom)
-            print("  0  1",file=f_init_geom)
+            print(f"molecule {mol_nm}" +" {", file=f_psi4_dat)
+            print("  0  1", file=f_psi4_dat)
 
-            print("# add in xyz coords here",file=f_init_geom)
+            print("# add in xyz coords here", file=f_psi4_dat)
             line0 = int(xyz_lines[0])
             print("no atoms in  %s = %d" % (mol_nm,line0))
             # for line in xyz_lines[2:2+line0]:
             #     print(str(line),file=f_init_geom)
-            f_init_geom.write('\n'.join(xyz_lines[2:2+line0]))
+            f_psi4_dat.write('\n'.join(xyz_lines[2:2 + line0]))
             # print("#------ finished printing coords -----#",file=f_init_geom)
 
             # now add rest of coord options include coord_units: angstrom or bohr
-            print(f"\nsymmetry c1\nno_reorient\nno_com\nunits {coord_unit}",file=f_init_geom)
-            print("  }\n", file=f_init_geom)
+            print(f"\nsymmetry c1\nno_reorient\nno_com\nunits {coord_unit}", file=f_psi4_dat)
+            print("  }\n", file=f_psi4_dat)
 
             num_thread = 6 # parameter for num of thread being used
-            print(f"set_num_threads({num_thread})\n",file=f_init_geom)
+            print(f"set_num_threads({num_thread})\n", file=f_psi4_dat)
 
             # start setting up other job options
             # basis aug-cc-pvdz or 6-31g**
@@ -233,44 +234,40 @@ if __name__ == "__main__":
                      'print_mos': False,
                      'geom_maxiter': 50
                      }
-            print("\n### start of set options block", file=f_init_geom)
+            print("\n### start of set options block", file=f_psi4_dat)
             # compare local options in jopts with psi4 global options
             # goal of jopts dictionary is to same psi4 options when building john's num hessian
-            print("set {", file=f_init_geom)
+            print("set {", file=f_psi4_dat)
             for key in jopts.keys():
-                print(f"  {key} {jopts[key]}", file=f_init_geom)
+                print(f"  {key} {jopts[key]}", file=f_psi4_dat)
                 # glob_op = core.get_global_option(key)
-                print(f"# key: {key}  from global_opt {psi4.core.get_global_option(key)} reset to {jopts[key]}", file=f_init_geom)
-            print("  }\n", file=f_init_geom)
+                print(f"# key: {key}  from global_opt {psi4.core.get_global_option(key)} reset to {jopts[key]}", file=f_psi4_dat)
+            print("  }\n", file=f_psi4_dat)
 
             if mol_geom == "init_pt":
                 #  get MOLNAME wfn at initial geom
-                print(f"# get {mol_nm} wfn at initial geom",file=f_init_geom)
+                print(f"# get {mol_nm} wfn at initial geom", file=f_psi4_dat)
                 # E_int,h2co_init_geom_wfn = energy('scf',return_wfn=True)
-                print(f"E_int,{mol_nm}_init_geom_wfn = energy('scf',return_wfn=True)",file=f_init_geom)
-                print(f"{mol_nm}_init_geom_wfn.to_file('{mol_nm}_init_geom_wfn.npy')",file=f_init_geom)
+                print(f"E_int,{mol_nm}_init_geom_wfn = energy('scf',return_wfn=True)", file=f_psi4_dat)
+                print(f"{mol_nm}_init_geom_wfn.to_file('{mol_nm}_init_geom_wfn.npy')", file=f_psi4_dat)
                 print(f"# calc {mol_nm} frequencies at initial geom for comparision with buildhess freq",
-                      file=f_init_geom)
-                print(f"E, {mol_nm}_hess_wfn = frequency('scf',return_wfn=True)",file=f_init_geom)
-
+                      file=f_psi4_dat)
             elif mol_geom == "equil":
                 # get MOLNAME_opt_wfn at equilbrium geom
-                print(f"# calc {mol_nm} opt_wfn at equil_geom",file=f_init_geom)
+                print(f"# calc {mol_nm} opt_wfn at equil_geom", file=f_psi4_dat)
                 #
-                print(f"E_opt,{mol_nm}_opt_wfn = optimize('scf',return_wfn=True)",file=f_init_geom)
+                print(f"E_opt,{mol_nm}_opt_wfn = optimize('scf',return_wfn=True)", file=f_psi4_dat)
                 # E_opt,MOLNAME_opt_wfn = optimize('scf',return_wfn=True)
                 #
-                print(f"{mol_nm}_opt_wfn.to_file('{mol_nm}_opt_wfn.npy')",file=f_init_geom)
+                print(f"{mol_nm}_opt_wfn.to_file('{mol_nm}_opt_wfn.npy')", file=f_psi4_dat)
                 # MOLNAME_opt_wfn.to_file("MOLNAME_opt_wfn.npy")
                 #
                 print(f"# calc {mol_nm} frequencies at optimized geom for comparision with buildhess freq",
-                      file=f_init_geom)
-                print(f"E, {mol_nm}_hess_wfn = frequency('scf',return_wfn=True)",file=f_init_geom)
-                #
-                # print(MOLNAME_hess_wfn.frequencies().get(0,0))
-                # hess_wfn.hessian().print_out()
-
-            f_init_geom.close()
+                      file=f_psi4_dat)
+            print(f"E, {mol_nm}_hess_wfn = frequency('scf',return_wfn=True)", file=f_psi4_dat)
+            print(f"# print_out {mol_nm}_hess_wfn frequencies")
+            print(f"{mol_nm}_hess_wfn.frequencies().print_out()",file=f_psi4_dat)
+            f_psi4_dat.close()
             print(f"finished forming {build_hess}.dat")
 
         print(f"++++ start running: psi4 -i {build_hess}.dat to form npy file")
@@ -308,8 +305,8 @@ if __name__ == "__main__":
         # 'coord_type': coord_type, 'coord_unit': coord_unit}
 
         # hess_done = jdh_bh.jdh_build_num_hess(mol_nm, run_type_op)
-
-        print("JDH Num hess calc all pau - hess_done should be zero = %d" % hess_done)
+        #print("JDH Num hess calc all pau - hess_done should be zero = %d" % hess_done)
+        pass
 
     print("ALL PAU")
 
