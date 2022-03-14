@@ -270,7 +270,7 @@ def vibs_trans_comp(mass_wt_vec,transv,proj= False,inv_hess=False,ckprnt=False):
         tot_tnorm += tnorm[imode]    
         ck_print("%4d %10.6f %10.6f %10.6f  Tot %10.6f" 
               % (imode,trans_comp[0,imode], trans_comp[1,imode], trans_comp[2,imode], tnorm[imode]),turn_on=ckprnt)
-    ck_print("===== ================================================",turn_on=ckprnt)    
+    ck_print("\n===== ================================================",turn_on=ckprnt)    
     psi4.core.print_out("\nTots %10.6f %10.6f %10.6f  Tot %10.6f"
           % (xyznorm[0], xyznorm[1], xyznorm[2],tot_tnorm))
 
@@ -314,7 +314,7 @@ def vibs_rots_comp(mass_wt_vec,rotsv,proj=False,inv_hess=False,ckprnt=False):
         else:
             ck_print("%4d %10.6f %10.6f %10.6f  Tot %10.6f"
               % (imode,rots_comp[0,imode], rots_comp[1,imode], rots_comp[2,imode], rnorm[imode]),turn_on=ckprnt)
-    ck_print("===== ================================================",turn_on=ckprnt) 
+    ck_print("\n===== ================================================",turn_on=ckprnt) 
     psi4.core.print_out("\nTots %10.6f %10.6f %10.6f  Tot %10.6f"
           % (xyznorm[0], xyznorm[1], xyznorm[2],tot_rnorm))
 
@@ -343,7 +343,7 @@ def tot_tr_in_vibs(tcomp,rcomp,freq,proj=False,inv_hess=False,ckprnt=False):
             ck_print("\n%4d  %10.6f  %10.6f  Tot  %10.6f   %11.3f"
               % (imode,tcomp[imode],rcomp[imode],trnorm,freq[imode]),turn_on=ckprnt)
 
-    ck_print("===== ==========================================",turn_on=ckprnt) 
+    ck_print("\n===== ==========================================",turn_on=ckprnt) 
     psi4.core.print_out("\nTotal %10.6f  %10.6f  Tot  %10.6f" 
           % (tot_tnorm, tot_rnorm, tot_trnorm))
     
